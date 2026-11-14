@@ -20,8 +20,6 @@ import {
 
 // Visual Assets
 const PORTRAIT_CUTOUT = "/assets/img/Portrait découpé d’une femme assise en tailleur.png";
-const SHEA_INGREDIENTS = "/src/assets/images/botanical_ingredients_shea_1794391064166.jpg";
-const RADIANT_SKIN = "/src/assets/images/radiant_melanin_skin_1794391065883.jpg";
 
 interface DiagnosticResult {
   skinType: string;
@@ -35,6 +33,42 @@ interface DiagnosticResult {
   };
 }
 
+const SKIN_PROBLEMS = [
+  {
+    id: 'teint-irregulier',
+    num: '01.',
+    concernKey: 'taches',
+    title: 'Teint irrégulier & taches rebelles',
+    symptom: 'Zones sombres persistantes, effet masque et perte d’uniformité malgré les crèmes.',
+    cause: 'Les mélanges décapants et actifs agressifs provoquent une inflammation chronique qui dérègle la mélanine.',
+    reflex: 'Apaiser l’inflammation cutanée et réinstaller une protection solaire quotidienne avant toute correction.',
+    image: '/src/assets/images/problem_uneven_skintone_1794663804656.jpg',
+    imageAlt: 'Peau noire présentant un teint irrégulier et des taches d’hyperpigmentation naturelles'
+  },
+  {
+    id: 'peau-abimee',
+    num: '02.',
+    concernKey: 'decapage',
+    title: 'Peau brûlée, affinée ou sensibilisée',
+    symptom: 'Échauffements, rougeurs, tiraillements vifs et peau qui marque au moindre frottement.',
+    cause: 'L’hydroquinone, les corticoïdes et les savons trop abrasifs détruisent le film hydrolipidique protecteur.',
+    reflex: 'Couper net l’agression chimique et colmater la barrière cutanée avec des lipides purs non raffinés.',
+    image: '/src/assets/images/problem_sensitized_skin_1794663804705.jpg',
+    imageAlt: 'Peau sensibilisée, rougie et fragilisée par l’altération de la barrière cutanée'
+  },
+  {
+    id: 'perte-eclat',
+    num: '03.',
+    concernKey: 'secheresse',
+    title: 'Perte d’éclat naturel & dépendance',
+    symptom: 'Teint terne ou grisé dès que tu arrêtes un produit, avec sensation de peau cartonnée.',
+    cause: 'La surcharge de soins chimiques inadaptés au climat étouffe la respiration cellulaire naturelle.',
+    reflex: 'Alléger la routine vers 3 gestes essentiels : nettoyer sans décaper, hydrater et nourrir simplement.',
+    image: '/src/assets/images/problem_dull_skin_fatigue_1794663805184.jpg',
+    imageAlt: 'Peau terne et fatiguée face à l’accumulation de produits cosmétiques inadaptés'
+  }
+] as const;
+
 export default function App() {
   // Navigation & Modals
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
@@ -44,8 +78,8 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
-  // Method 3 Pillars Interactive State
-  const [activePillar, setActivePillar] = useState<'reparer' | 'equilibrer' | 'regenerer'>('reparer');
+  // Problem Section Interactive State
+  const [selectedProblem, setSelectedProblem] = useState<string>('teint-irregulier');
 
   // Diagnostic Quiz State
   const [quizStep, setQuizStep] = useState(1);
@@ -218,7 +252,7 @@ export default function App() {
 
             {/* Method Tag with Smooth Scroll */}
             <a 
-              href="#methode"
+              href="#probleme"
               className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex items-center gap-2 transition-colors cursor-pointer group"
             >
               <span className="text-[#D45578] font-bold">Approche :</span>
@@ -235,6 +269,148 @@ export default function App() {
               alt="Gloria Aminou - Beauty coach béninoise"
               className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(23,19,24,0.22)] select-none transition-all duration-300"
             />
+          </div>
+        </section>
+
+        {/* ========================================================
+            SECTION PROBLÈME (SUR LE PLAN D'ARRIÈRE-PLAN SANS CARTE)
+            "Le problème, ce n'est pas toi. C'est ce que tu utilises."
+            ======================================================== */}
+        <section
+          id="probleme"
+          className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-12 sm:py-16 md:py-20 px-2 sm:px-4 md:px-6"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            
+            {/* Left Column: Editorial Truth & CTA */}
+            <div className="lg:col-span-5 flex flex-col items-start">
+              <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
+                <span>Le constat</span>
+                <span aria-hidden="true" className="text-[#4A3F45]">·</span>
+                <span>Comprendre avant d’agir</span>
+              </div>
+
+              <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-[46px] text-[#171318] font-medium leading-[1.1] tracking-tight text-balance">
+                Le problème, ce n’est pas toi. <br />
+                <span className="text-[#A82F55] italic">C’est ce que tu utilises.</span>
+              </h2>
+
+              <p className="mt-5 text-sm sm:text-base text-[#3D3238] leading-relaxed max-w-md">
+                Si tu es ici, ce n’est pas un hasard. Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus. Je n’embellis pas la réalité : je la corrige.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <button
+                  onClick={() => {
+                    const active = SKIN_PROBLEMS.find((p) => p.id === selectedProblem);
+                    if (active) setConcern(active.concernKey);
+                    setQuizStep(1);
+                    setDiagnosticResult(null);
+                    setIsDiagnosticOpen(true);
+                  }}
+                  className="group px-7 py-3.5 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow-md flex items-center gap-2.5"
+                >
+                  <span>Identifier mon problème</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Interactive List of the 3 Core Skin Problems with Dedicated Visuals */}
+            <div className="lg:col-span-7 flex flex-col border-t border-[#A82F55]/25">
+              {SKIN_PROBLEMS.map((problem) => {
+                const isSelected = selectedProblem === problem.id;
+                return (
+                  <div
+                    key={problem.id}
+                    className={`border-b border-[#A82F55]/25 transition-colors duration-200 ${
+                      isSelected ? 'bg-[#FFFFFF]/70 px-4 sm:px-6 py-5 sm:py-6 rounded-2xl my-2 border-transparent shadow-xs' : 'py-5 sm:py-6 px-2 sm:px-3'
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProblem(problem.id)}
+                      className="w-full text-left flex flex-col sm:flex-row items-start gap-4 sm:gap-5 cursor-pointer group"
+                      aria-expanded={isSelected}
+                    >
+                      {/* Dedicated Problem Image (4:3) */}
+                      <div className="w-full sm:w-40 md:w-44 aspect-[4/3] rounded-xl overflow-hidden bg-[#A82F55]/10 shrink-0 relative">
+                        <img
+                          src={problem.image}
+                          alt={problem.imageAlt}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+
+                      <div className="flex-1 flex items-start justify-between gap-3 w-full">
+                        <div className="flex items-baseline gap-2.5 sm:gap-3">
+                          <span className="font-serif-luxury text-xl sm:text-2xl font-semibold text-[#A82F55] tabular-nums shrink-0">
+                            {problem.num}
+                          </span>
+                          <div>
+                            <h3 className="font-serif-luxury text-xl sm:text-2xl text-[#171318] font-medium group-hover:text-[#A82F55] transition-colors leading-snug">
+                              {problem.title}
+                            </h3>
+                            <p className="mt-1.5 text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                              {problem.symptom}
+                            </p>
+                          </div>
+                        </div>
+                        <span
+                          className={`text-xs font-semibold uppercase tracking-wider shrink-0 mt-1 transition-colors ${
+                            isSelected ? 'text-[#A82F55]' : 'text-[#4A3F45] group-hover:text-[#A82F55]'
+                          }`}
+                        >
+                          {isSelected ? 'Ouvert' : 'Voir'}
+                        </span>
+                      </div>
+                    </button>
+
+                    {isSelected && (
+                      <div className="mt-5 pt-4 border-t border-[#A82F55]/15 grid grid-cols-1 sm:grid-cols-2 gap-5 pl-0 sm:pl-44 md:pl-49">
+                        <div>
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#A82F55] mb-1">
+                            Ce qui abîme ta peau
+                          </div>
+                          <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                            {problem.cause}
+                          </p>
+                        </div>
+                        <div>
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#171318] mb-1">
+                            Premier réflexe Gloria
+                          </div>
+                          <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                            {problem.reflex}
+                          </p>
+                        </div>
+
+                        <div className="sm:col-span-2 pt-1 flex flex-wrap items-center justify-between gap-3">
+                          <span className="text-xs text-[#4A3F45]">
+                            Approche naturelle · Sans dépendance chimique
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setConcern(problem.concernKey);
+                              setQuizStep(1);
+                              setDiagnosticResult(null);
+                              setIsDiagnosticOpen(true);
+                            }}
+                            className="text-xs font-bold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-1.5 cursor-pointer transition-colors"
+                          >
+                            <span>Corriger ce problème</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
           </div>
         </section>
 
@@ -614,10 +790,10 @@ export default function App() {
               <nav className="flex flex-col gap-6">
                 {[
                   { 
-                    name: "La Méthode des 3 Piliers", 
+                    name: "Comprendre le problème", 
                     action: () => { 
                       setIsMenuOpen(false); 
-                      const el = document.getElementById('methode');
+                      const el = document.getElementById('probleme');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   },
