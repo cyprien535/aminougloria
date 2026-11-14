@@ -42,3 +42,26 @@
   animation: rose-button-glow 2.6s ease-in-out infinite;
 }
 
+/* Sculpted 3D Brand Typography */
+.text-3d-brand {
+  display: inline-block;
+  color: #171318;
+  text-shadow:
+    0 1px 0 #F2CFD9,
+    0 2px 0 #E5A9BC,
+    0 3px 0 #D45578,
+    0 4px 0 #A82F55,
+    0 6px 14px rgba(23, 19, 24, 0.22);
+  transform: perspective(420px) rotateX(9deg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.2s ease;
+}
+
+.text-3d-brand:hover {
+  transform: perspective(420px) rotateX(0deg) translateY(-1px);
+  text-shadow:
+    0 1px 0 #F2CFD9,
+    0 2px 0 #E5A9BC,
+    0 3px 0 #D45578,
+    0 5px 0 #A82F55,
+    0 8px 18px rgba(168, 47, 85, 0.3);
+}

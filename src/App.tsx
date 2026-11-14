@@ -69,10 +69,119 @@ const SKIN_PROBLEMS = [
   }
 ] as const;
 
+const BOUTIQUE_ESSENTIALS = [
+  {
+    id: 'karite-brut',
+    name: 'Beurre de Karité Brut Non Raffiné',
+    origin: 'Nord Bénin · Pression artisanale',
+    benefit: 'Répare les peaux brûlées et restaure le film hydrolipidique sans obstruer les pores.',
+    price: '8 500 FCFA'
+  },
+  {
+    id: 'huile-baobab',
+    name: 'Huile Vierge de Baobab Pressée à Froid',
+    origin: 'Afrique de l’Ouest · 100% pure',
+    benefit: 'Nourrit en profondeur, assouplit les peaux cartonnées et redonne de l’éclat naturel.',
+    price: '12 000 FCFA'
+  },
+  {
+    id: 'eau-hibiscus',
+    name: 'Eau Florale d’Hibiscus Apaisante',
+    origin: 'Cotonou · Distillation douce',
+    benefit: 'Rééquilibre le pH après le nettoyage, calme les rougeurs et prépare à l’hydratation.',
+    price: '6 500 FCFA'
+  }
+] as const;
+
+const SOLUTION_PILLARS = [
+  {
+    id: 'reparer',
+    num: '01.',
+    tabLabel: '01. Réparer',
+    timing: 'Phase 01 · Semaines 1 à 2 · Apaisement & barrière cutanée',
+    promise: 'Tu comprends ce qui abîme ta peau',
+    headline: 'Stopper l’agression chimique et cicatriser la barrière cutanée',
+    description:
+      'On coupe net avec les mélanges décapants, l’hydroquinone et les corticoïdes. Le premier objectif est d’éteindre l’inflammation invisible et de reconstruire le film hydrolipidique avec des lipides purs non raffinés.',
+    actif: 'Beurre de Karité brut non raffiné du Nord Bénin',
+    actifOrigin: 'Nutrition réparatrice · Sans parfums ni solvants',
+    concernKey: 'decapage',
+    matin: [
+      'Rinçage doux à l’eau florale d’hibiscus tiède, sans savon décapant.',
+      'Application de gel d’aloe vera pur pour calmer les échauffements.',
+      'Voile léger de protection solaire fluide SPF 50 pour bloquer le rebond pigmentaire.'
+    ],
+    soir: [
+      'Démaquillage et nettoyage apaisant à l’huile végétale pure de baobab.',
+      'Compresse d’hydrolat apaisant sur les zones fragilisées ou sensibilisées.',
+      'Fine noisette de karité brut chauffée au creux des mains pour sceller la réparation.'
+    ],
+    image: '/src/assets/images/botanical_ingredients_shea_1794391064166.jpg',
+    imageAlt: 'Beurre de karité brut non raffiné et huile botanique naturelle sur pierre travertine',
+    imageTag: 'Matières brutes · Zéro hydroquinone',
+    imageQuote: 'Réparer avant de corriger : une peau enflammée ne peut pas s’unifier durablement.'
+  },
+  {
+    id: 'equilibrer',
+    num: '02.',
+    tabLabel: '02. Équilibrer',
+    timing: 'Phase 02 · Semaines 3 à 5 · Stabilité & hydratation ciblée',
+    promise: 'Tu apprends à la réparer naturellement',
+    headline: 'Alléger ta routine vers 3 gestes justes adaptés à ton climat',
+    description:
+      'Fini l’accumulation de dix produits incompatibles. Tu apprends à lire les besoins réels de ta peau — chaleur humide, harmattan sec ou eau calcaire — pour stabiliser le sébum et l’hydratation.',
+    actif: 'Huile vierge de Baobab pressée à froid & Aloe vera frais',
+    actifOrigin: 'Équilibre eau-lipides · Non comédogène',
+    concernKey: 'secheresse',
+    matin: [
+      'Nettoyage minimaliste doux pour préserver la flore cutanée du matin.',
+      'Brume hydratante ou sérum léger adapté à l’humidité de ton climat.',
+      'Protection solaire renouvelée avant toute exposition extérieure.'
+    ],
+    soir: [
+      'Nettoyage soigneux des poussières et filtres solaires sans frotter.',
+      'Apport d’eau végétale sur peau humide pour restaurer la souplesse.',
+      'Deux gouttes d’huile de baobab pressée en massage lent sur le visage.'
+    ],
+    image: '/src/assets/images/botanical_ingredients_shea_1794391064166.jpg',
+    imageAlt: 'Actifs botaniques naturels pressés à froid pour rééquilibrer la peau',
+    imageTag: 'Routine 3 gestes · Adaptée à ton climat',
+    imageQuote: 'Moins de flacons, plus de justesse : ta peau retrouve son propre rythme.'
+  },
+  {
+    id: 'regenerer',
+    num: '03.',
+    tabLabel: '03. Régénérer',
+    timing: 'Phase 03 · Semaine 6 et plus · Éclat propre & autonomie',
+    promise: 'Tu retrouves un teint propre, stable, sain',
+    headline: 'Unifier le teint en douceur, sans artifices ni dépendance',
+    description:
+      'Une fois la barrière cutanée solide, les taches s’estompent au rythme naturel du renouvellement cellulaire. Ton teint devient uniforme, lumineux et stable, même sans maquillage ni crème miracle.',
+    actif: 'Macérât doux d’Hibiscus & Omégas de Baobab',
+    actifOrigin: 'Éclat progressif · Respect total de la mélanine',
+    concernKey: 'taches',
+    matin: [
+      'Nettoyage respectueux à l’eau florale pour réveiller la luminosité.',
+      'Soin antioxydant doux pour prévenir l’oxydation et le teint terne.',
+      'Écran solaire haute tolérance pour verrouiller l’uniformité obtenue.'
+    ],
+    soir: [
+      'Double nettoyage doux pour laisser les pores respirer toute la nuit.',
+      'Soin ciblé aux acides de fleurs d’hibiscus (1 à 2 soirs par semaine).',
+      'Élixir nourrissant baobab pour soutenir la régénération nocturne.'
+    ],
+    image: '/src/assets/images/radiant_melanin_skin_1794391065883.jpg',
+    imageAlt: 'Peau noire naturelle, uniforme, saine et lumineuse sans artifices',
+    imageTag: 'Résultat durable · Sans dépendance chimique',
+    imageQuote: 'Un vrai teint sain ne s’effondre pas quand tu poses le flacon.'
+  }
+] as const;
+
 export default function App() {
   // Navigation & Modals
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isBoutiqueOpen, setIsBoutiqueOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -80,6 +189,11 @@ export default function App() {
 
   // Problem Section Interactive State
   const [selectedProblem, setSelectedProblem] = useState<string>('teint-irregulier');
+
+  // Solution Section Interactive State
+  const [activeSolutionId, setActiveSolutionId] = useState<'reparer' | 'equilibrer' | 'regenerer'>('reparer');
+  const [solutionRoutineMode, setSolutionRoutineMode] = useState<'matin' | 'soir'>('matin');
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   // Diagnostic Quiz State
   const [quizStep, setQuizStep] = useState(1);
@@ -167,48 +281,73 @@ export default function App() {
       <div className="w-full max-w-[1560px] mx-auto flex flex-col flex-1 items-center gap-4 sm:gap-5 md:gap-6 relative z-10">
 
         {/* ========================================================
-            NAVIGATION (Rounded Top Bar - Sleek & Refined)
+            NAVIGATION (3D Brand + Accueil / Services / Boutique + Button)
             ======================================================== */}
-        <header className="w-[99%] sm:w-[98%] md:w-[97%] lg:w-[96%] max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 flex items-center justify-between text-[#171318] shadow-sm shrink-0 transition-all">
-          {/* Left: 2-line menu icon + "MENU" */}
-          <button 
-            onClick={() => setIsMenuOpen(true)}
-            className="flex items-center gap-2.5 group cursor-pointer text-[#171318] hover:text-[#D45578] transition-colors duration-200"
-            aria-label="Ouvrir le menu"
+        <header className="w-[99%] sm:w-[98%] md:w-[97%] lg:w-[96%] max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-5 sm:px-8 md:px-10 py-2.5 sm:py-3 flex items-center justify-between gap-4 sm:gap-8 text-[#171318] shadow-sm shrink-0 transition-all">
+          {/* Zone 1: 3D Brand Name */}
+          <a
+            href="#accueil"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="font-serif-luxury text-2xl sm:text-[26px] md:text-[30px] font-bold tracking-tight whitespace-nowrap shrink-0 text-3d-brand select-none"
           >
-            <div className="flex flex-col gap-[4.5px] w-5">
-              <span className="w-full h-[1.5px] bg-current rounded-full transition-transform group-hover:translate-x-0.5" />
-              <span className="w-3.5 h-[1.5px] bg-current rounded-full transition-transform group-hover:translate-x-1" />
-            </div>
-            <span className="text-[11px] sm:text-xs uppercase tracking-[0.18em] font-semibold hidden sm:inline-block">
-              MENU
-            </span>
-          </button>
+            Gloria Aminou
+          </a>
 
-          {/* Centre: "Gloria Aminou" */}
-          <div className="flex flex-col items-center justify-center text-center cursor-pointer select-none">
-            <span className="font-serif-luxury text-xl sm:text-2xl md:text-[25px] font-medium tracking-tight text-[#171318] hover:text-[#D45578] transition-colors">
-              Gloria Aminou
-            </span>
+          {/* Zone 2: Navigation Links */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#171318]">
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              Accueil
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById('solution');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              Services
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsBoutiqueOpen(true)}
+              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              Boutique
+            </button>
+          </nav>
+
+          {/* Zone 3: Primary Button (+ mobile drawer trigger on small screens) */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsBookingOpen(true)}
+              className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer shadow-xs transition-colors"
+            >
+              Prendre rendez-vous
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(true)}
+              className="md:hidden p-2 rounded-full text-[#171318] hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
+              aria-label="Ouvrir le menu"
+            >
+              <MenuIcon className="w-5 h-5" />
+            </button>
           </div>
-
-          {/* Right: Search icon + "RECHERCHE" */}
-          <button 
-            onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 group cursor-pointer text-[#171318] hover:text-[#D45578] transition-colors duration-200"
-            aria-label="Recherche"
-          >
-            <span className="text-[11px] sm:text-xs uppercase tracking-[0.18em] font-semibold hidden sm:inline-block">
-              RECHERCHE
-            </span>
-            <Search className="w-3.5 sm:w-4 h-3.5 sm:h-4 stroke-[1.8] group-hover:scale-110 transition-transform duration-200" />
-          </button>
         </header>
 
         {/* ========================================================
             HERO SECTION (Large Framed Rounded Card - Foreground z-30)
             ======================================================== */}
-        <section className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between">
+        <section id="accueil" className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between">
           {/* Left-to-Right Gradient Backdrop behind the text content */}
           <div 
             className="absolute inset-y-0 left-0 w-full md:w-3/4 lg:w-3/5 bg-gradient-to-r from-[#FFFFFF]/95 via-[#FDF0F5]/80 to-transparent pointer-events-none z-0" 
@@ -252,7 +391,7 @@ export default function App() {
 
             {/* Method Tag with Smooth Scroll */}
             <a 
-              href="#probleme"
+              href="#solution"
               className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex items-center gap-2 transition-colors cursor-pointer group"
             >
               <span className="text-[#D45578] font-bold">Approche :</span>
@@ -413,6 +552,235 @@ export default function App() {
 
           </div>
         </section>
+
+        {/* ========================================================
+            SECTION SOLUTION (APPROCHE : RÉPARER · ÉQUILIBRER · RÉGÉNÉRER)
+            ======================================================== */}
+        {(() => {
+          const activeSolution =
+            SOLUTION_PILLARS.find((pillar) => pillar.id === activeSolutionId) || SOLUTION_PILLARS[0];
+          const activeSteps =
+            solutionRoutineMode === 'matin' ? activeSolution.matin : activeSolution.soir;
+          const isImageFailed = Boolean(failedImages[activeSolution.image]);
+
+          return (
+            <section
+              id="solution"
+              className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-12 sm:py-16 md:py-20 px-2 sm:px-4 md:px-6"
+            >
+              {/* Section Editorial Header */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end pb-8 sm:pb-10 border-b border-[#A82F55]/25">
+                <div className="lg:col-span-7">
+                  <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
+                    <span>La Solution</span>
+                    <span aria-hidden="true" className="text-[#4A3F45]">·</span>
+                    <span>Méthode naturelle Gloria Aminou</span>
+                  </div>
+                  <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-[46px] text-[#171318] font-medium leading-[1.08] tracking-tight text-balance">
+                    Réparer, équilibrer, régénérer. <br />
+                    <span className="text-[#A82F55] italic">Un teint propre, stable, sain.</span>
+                  </h2>
+                </div>
+
+                <div className="lg:col-span-5 flex flex-col gap-3">
+                  <p className="text-sm sm:text-base text-[#3D3238] leading-relaxed">
+                    Je n’embellis pas la réalité. Je la corrige. Spécialisée dans les solutions naturelles efficaces, ma méthode rééduque ta peau étape par étape.
+                  </p>
+                  <div className="text-xs font-semibold text-[#A82F55] flex flex-wrap items-center gap-2">
+                    <span>Sans artifices</span>
+                    <span aria-hidden="true" className="text-[#4A3F45]">·</span>
+                    <span>Sans mensonges</span>
+                    <span aria-hidden="true" className="text-[#4A3F45]">·</span>
+                    <span>Sans dépendance aux produits chimiques</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interactive Protocol Split */}
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
+                {/* Left Column: 3-Pillar Interactive Controls & Routine */}
+                <div className="lg:col-span-7 flex flex-col justify-between gap-8">
+                  <div>
+                    {/* Segmented 3-Pillar Tabs */}
+                    <div
+                      role="tablist"
+                      aria-label="Étapes de la méthode naturelle"
+                      className="grid grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-[#FFFFFF]/45"
+                    >
+                      {SOLUTION_PILLARS.map((pillar) => {
+                        const isActive = pillar.id === activeSolution.id;
+                        return (
+                          <button
+                            key={pillar.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={isActive}
+                            onClick={() => setActiveSolutionId(pillar.id)}
+                            className={`px-3 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap shrink-0 truncate cursor-pointer ${
+                              isActive
+                                ? 'bg-[#FFFFFF] text-[#171318] shadow-xs'
+                                : 'text-[#3D3238] hover:text-[#171318]'
+                            }`}
+                          >
+                            {pillar.tabLabel}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Active Pillar Editorial Details */}
+                    <div className="mt-8">
+                      <div className="text-xs font-semibold text-[#A82F55] mb-2">
+                        {activeSolution.timing}
+                      </div>
+                      <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#171318] font-medium leading-snug text-balance">
+                        {activeSolution.headline}
+                      </h3>
+                      <p className="mt-3 text-sm sm:text-base text-[#3D3238] leading-relaxed">
+                        {activeSolution.description}
+                      </p>
+                      <div className="mt-4 text-xs sm:text-sm font-semibold text-[#171318]">
+                        Ce qui change concrètement :{' '}
+                        <span className="text-[#A82F55] font-semibold">{activeSolution.promise}</span>
+                      </div>
+                    </div>
+
+                    {/* Routine Matin / Soir Interactive Breakdown */}
+                    <div className="mt-8 pt-6 border-t border-[#A82F55]/25">
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#171318]">
+                          Protocole quotidien conseillé
+                        </span>
+                        <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-[#FFFFFF]/45">
+                          <button
+                            type="button"
+                            onClick={() => setSolutionRoutineMode('matin')}
+                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                              solutionRoutineMode === 'matin'
+                                ? 'bg-[#FFFFFF] text-[#171318] shadow-xs'
+                                : 'text-[#3D3238] hover:text-[#171318]'
+                            }`}
+                          >
+                            <Sun className="w-3.5 h-3.5 text-[#D45578]" />
+                            <span>Matin</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setSolutionRoutineMode('soir')}
+                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                              solutionRoutineMode === 'soir'
+                                ? 'bg-[#FFFFFF] text-[#171318] shadow-xs'
+                                : 'text-[#3D3238] hover:text-[#171318]'
+                            }`}
+                          >
+                            <Droplets className="w-3.5 h-3.5 text-[#A82F55]" />
+                            <span>Soir</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <ol className="divide-y divide-[#A82F55]/20">
+                        {activeSteps.map((step, index) => (
+                          <li key={index} className="py-3 flex items-baseline gap-3.5">
+                            <span className="font-serif-luxury text-base font-semibold text-[#A82F55] tabular-nums shrink-0">
+                              0{index + 1}.
+                            </span>
+                            <span className="text-xs sm:text-sm text-[#171318] leading-relaxed">
+                              {step}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  </div>
+
+                  {/* Active Botanical Key & Primary Conversion Actions */}
+                  <div className="pt-6 border-t border-[#A82F55]/25 flex flex-col gap-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <div className="text-[11px] font-semibold uppercase tracking-wider text-[#A82F55]">
+                          Actif botanique de cette phase
+                        </div>
+                        <div className="font-serif-luxury text-lg sm:text-xl font-medium text-[#171318]">
+                          {activeSolution.actif}
+                        </div>
+                        <div className="text-xs text-[#3D3238] mt-0.5">
+                          {activeSolution.actifOrigin}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsBoutiqueOpen(true)}
+                        className="text-xs font-semibold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer transition-colors self-start sm:self-center"
+                      >
+                        <span>Voir en boutique</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-4">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setConcern(activeSolution.concernKey);
+                          setQuizStep(1);
+                          setDiagnosticResult(null);
+                          setIsDiagnosticOpen(true);
+                        }}
+                        className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                      >
+                        <span>Démarrer mon diagnostic</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setIsBookingOpen(true)}
+                        className="px-6 py-3.5 rounded-full border border-[#171318]/30 hover:border-[#A82F55] hover:bg-[#FFFFFF]/50 text-[#171318] hover:text-[#A82F55] transition-colors text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0"
+                      >
+                        Réserver un coaching visio
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Edge-to-Edge Editorial Visual Carrier */}
+                <div className="lg:col-span-5 flex flex-col">
+                  <div className="relative flex-1 min-h-[380px] sm:min-h-[440px] lg:min-h-full rounded-2xl md:rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFFFFF]/60 via-[#FCE4EC] to-[#D45578]/25">
+                    {isImageFailed ? (
+                      <div className="w-full h-full min-h-[380px] flex flex-col items-center justify-center p-8 text-center">
+                        <Sparkles className="w-10 h-10 text-[#A82F55] mb-3" />
+                        <p className="font-serif-luxury text-2xl text-[#171318] font-medium">
+                          {activeSolution.actif}
+                        </p>
+                      </div>
+                    ) : (
+                      <img
+                        src={activeSolution.image}
+                        alt={activeSolution.imageAlt}
+                        referrerPolicy="no-referrer"
+                        onError={() =>
+                          setFailedImages((prev) => ({ ...prev, [activeSolution.image]: true }))
+                        }
+                        className="w-full h-full object-cover transition-opacity duration-300"
+                      />
+                    )}
+
+                    {/* Measured Contrast Scrim */}
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#171318]/85 via-[#171318]/45 to-transparent p-6 sm:p-8 flex flex-col justify-end">
+                      <div className="text-xs font-medium text-[#F2CFD9] mb-2">
+                        {activeSolution.imageTag}
+                      </div>
+                      <p className="font-serif-luxury text-xl sm:text-2xl text-[#FFFFFF] leading-snug font-normal text-balance">
+                        « {activeSolution.imageQuote} »
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
       </div>
 
@@ -790,16 +1158,37 @@ export default function App() {
               <nav className="flex flex-col gap-6">
                 {[
                   { 
-                    name: "Comprendre le problème", 
+                    name: "Accueil", 
+                    action: () => { 
+                      setIsMenuOpen(false); 
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } 
+                  },
+                  { 
+                    name: "Problèmes de peau", 
                     action: () => { 
                       setIsMenuOpen(false); 
                       const el = document.getElementById('probleme');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   },
+                  { 
+                    name: "La Solution naturelle", 
+                    action: () => { 
+                      setIsMenuOpen(false); 
+                      const el = document.getElementById('solution');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    } 
+                  },
+                  { 
+                    name: "Boutique", 
+                    action: () => { 
+                      setIsMenuOpen(false); 
+                      setIsBoutiqueOpen(true);
+                    } 
+                  },
                   { name: "Diagnostic de peau gratuit", action: () => { setIsMenuOpen(false); setIsDiagnosticOpen(true); } },
-                  { name: "Prendre rendez-vous en coaching", action: () => { setIsMenuOpen(false); setIsBookingOpen(true); } },
-                  { name: "Rechercher un conseil", action: () => { setIsMenuOpen(false); setIsSearchOpen(true); } }
+                  { name: "Prendre rendez-vous", action: () => { setIsMenuOpen(false); setIsBookingOpen(true); } }
                 ].map((navItem, index) => (
                   <button
                     key={index}
@@ -816,6 +1205,69 @@ export default function App() {
               <p className="font-semibold text-[#171318]">Gloria Aminou</p>
               <p className="mt-0.5">Beauty Coach & Créatrice de contenus</p>
               <p className="mt-2 text-[#A82F55] font-medium">Cosmétique naturelle · Cotonou, Bénin</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL 4 : BOUTIQUE NATURELLE
+          ======================================================== */}
+      {isBoutiqueOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm">
+          <div className="relative max-w-2xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button 
+              type="button"
+              onClick={() => setIsBoutiqueOpen(false)}
+              className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
+              aria-label="Fermer la boutique"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-xs uppercase tracking-[0.2em] text-[#D45578] font-semibold mb-1">
+              Boutique · Essentiels Naturels
+            </div>
+            <h3 className="font-serif-luxury text-2xl md:text-3xl text-[#171318] mb-2 font-medium">
+              Actifs purs sélectionnés par Gloria
+            </h3>
+            <p className="text-xs sm:text-sm text-[#6F6268] mb-6">
+              Des matières brutes non dénaturées, sans hydroquinone ni corticoïdes, adaptées à la réparation de la barrière cutanée.
+            </p>
+
+            <div className="rounded-2xl overflow-hidden aspect-[16/9] mb-6 bg-[#F2CFD9]/20">
+              <img
+                src="/src/assets/images/botanical_ingredients_shea_1794391064166.jpg"
+                alt="Karité brut et huile botanique naturelle sélectionnés par Gloria Aminou"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="divide-y divide-[#F2CFD9]">
+              {BOUTIQUE_ESSENTIALS.map((item) => (
+                <div key={item.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <div className="text-xs text-[#A82F55] font-medium">{item.origin}</div>
+                    <div className="font-serif-luxury text-xl font-medium text-[#171318]">{item.name}</div>
+                    <p className="text-xs text-[#6F6268] mt-1 max-w-md">{item.benefit}</p>
+                  </div>
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
+                    <span className="text-sm font-bold text-[#171318] tabular-nums">{item.price}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setBookingNotes(`Je souhaite commander / obtenir un conseil sur : ${item.name} (${item.price}).`);
+                        setIsBoutiqueOpen(false);
+                        setIsBookingOpen(true);
+                      }}
+                      className="px-4 py-2 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors"
+                    >
+                      Commander
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
