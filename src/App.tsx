@@ -383,148 +383,161 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SECTION PROBLÈME (SUR LE PLAN D'ARRIÈRE-PLAN SANS CARTE)
+            SECTION PROBLÈME (GALERIE ÉDITORIALE EN 3 COLONNES SUR ARRIÈRE-PLAN)
             "Le problème, ce n'est pas toi. C'est ce que tu utilises."
             ======================================================== */}
-        <section
-          id="probleme"
-          className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-12 sm:py-16 md:py-20 px-2 sm:px-4 md:px-6"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            
-            {/* Left Column: Editorial Truth & CTA */}
-            <div className="lg:col-span-5 flex flex-col items-start">
-              <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
-                <span>Le constat</span>
-                <span aria-hidden="true" className="text-[#4A3F45]">·</span>
-                <span>Comprendre avant d’agir</span>
-              </div>
+        {(() => {
+          const activeProblem =
+            SKIN_PROBLEMS.find((p) => p.id === selectedProblem) || SKIN_PROBLEMS[0];
 
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-[46px] text-[#171318] font-medium leading-[1.1] tracking-tight text-balance">
-                Le problème, ce n’est pas toi. <br />
-                <span className="text-[#A82F55] italic">C’est ce que tu utilises.</span>
-              </h2>
+          return (
+            <section
+              id="probleme"
+              className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-22 px-2 sm:px-4 md:px-6"
+            >
+              {/* Top Editorial Split Header */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end pb-10 sm:pb-12 border-b border-[#A82F55]/25">
+                <div className="lg:col-span-7">
+                  <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
+                    <span>Le constat</span>
+                    <span aria-hidden="true" className="text-[#4A3F45]">·</span>
+                    <span>Comprendre avant d’agir</span>
+                  </div>
+                  <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-[48px] text-[#171318] font-medium leading-[1.08] tracking-tight text-balance">
+                    Le problème, ce n’est pas toi. <br />
+                    <span className="text-[#A82F55] italic">C’est ce que tu utilises.</span>
+                  </h2>
+                </div>
 
-              <p className="mt-5 text-sm sm:text-base text-[#3D3238] leading-relaxed max-w-md">
-                Si tu es ici, ce n’est pas un hasard. Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus. Je n’embellis pas la réalité : je la corrige.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  onClick={() => {
-                    const active = SKIN_PROBLEMS.find((p) => p.id === selectedProblem);
-                    if (active) setConcern(active.concernKey);
-                    setQuizStep(1);
-                    setDiagnosticResult(null);
-                    setIsDiagnosticOpen(true);
-                  }}
-                  className="group px-7 py-3.5 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow-md flex items-center gap-2.5"
-                >
-                  <span>Identifier mon problème</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive List of the 3 Core Skin Problems with Dedicated Visuals */}
-            <div className="lg:col-span-7 flex flex-col border-t border-[#A82F55]/25">
-              {SKIN_PROBLEMS.map((problem) => {
-                const isSelected = selectedProblem === problem.id;
-                return (
-                  <div
-                    key={problem.id}
-                    className={`border-b border-[#A82F55]/25 transition-colors duration-200 ${
-                      isSelected ? 'bg-[#FFFFFF]/70 px-4 sm:px-6 py-5 sm:py-6 rounded-2xl my-2 border-transparent shadow-xs' : 'py-5 sm:py-6 px-2 sm:px-3'
-                    }`}
+                <div className="lg:col-span-5 flex flex-col items-start gap-5">
+                  <p className="text-sm sm:text-base text-[#3D3238] leading-relaxed">
+                    Si tu es ici, ce n’est pas un hasard. Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus. Je n’embellis pas la réalité : je la corrige.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setConcern(activeProblem.concernKey);
+                      setQuizStep(1);
+                      setDiagnosticResult(null);
+                      setIsDiagnosticOpen(true);
+                    }}
+                    className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                   >
+                    <span>Identifier mon problème</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+
+              {/* 3-Column Visual Problem Showcase */}
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-10">
+                {SKIN_PROBLEMS.map((problem) => {
+                  const isSelected = selectedProblem === problem.id;
+                  const isProblemImageFailed = Boolean(failedImages[problem.image]);
+
+                  return (
                     <button
+                      key={problem.id}
                       type="button"
                       onClick={() => setSelectedProblem(problem.id)}
-                      className="w-full text-left flex flex-col sm:flex-row items-start gap-4 sm:gap-5 cursor-pointer group"
-                      aria-expanded={isSelected}
+                      aria-pressed={isSelected}
+                      className="text-left group cursor-pointer flex flex-col items-start focus:outline-none"
                     >
-                      {/* Dedicated Problem Image (4:3) */}
-                      <div className="w-full sm:w-40 md:w-44 aspect-[4/3] rounded-xl overflow-hidden bg-[#A82F55]/10 shrink-0 relative">
-                        <img
-                          src={problem.image}
-                          alt={problem.imageAlt}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+                      {/* Full-Width Column Image (4:3) */}
+                      <div
+                        className={`w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 transition-all duration-300 ${
+                          isSelected
+                            ? 'ring-2 ring-[#A82F55] shadow-lg'
+                            : 'shadow-sm opacity-90 group-hover:opacity-100 group-hover:shadow-md'
+                        }`}
+                      >
+                        {isProblemImageFailed ? (
+                          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center">
+                            <Sparkles className="w-8 h-8 text-[#A82F55] mb-2" />
+                            <span className="font-serif-luxury text-lg text-[#171318]">
+                              {problem.title}
+                            </span>
+                          </div>
+                        ) : (
+                          <img
+                            src={problem.image}
+                            alt={problem.imageAlt}
+                            referrerPolicy="no-referrer"
+                            onError={() =>
+                              setFailedImages((prev) => ({ ...prev, [problem.image]: true }))
+                            }
+                            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                          />
+                        )}
                       </div>
 
-                      <div className="flex-1 flex items-start justify-between gap-3 w-full">
-                        <div className="flex items-baseline gap-2.5 sm:gap-3">
-                          <span className="font-serif-luxury text-xl sm:text-2xl font-semibold text-[#A82F55] tabular-nums shrink-0">
+                      {/* Editorial Number, Title & Symptom */}
+                      <div className="mt-5 w-full">
+                        <div className="flex items-baseline gap-2.5">
+                          <span
+                            className={`font-serif-luxury text-xl font-semibold tabular-nums transition-colors ${
+                              isSelected ? 'text-[#A82F55]' : 'text-[#4A3F45] group-hover:text-[#A82F55]'
+                            }`}
+                          >
                             {problem.num}
                           </span>
-                          <div>
-                            <h3 className="font-serif-luxury text-xl sm:text-2xl text-[#171318] font-medium group-hover:text-[#A82F55] transition-colors leading-snug">
-                              {problem.title}
-                            </h3>
-                            <p className="mt-1.5 text-xs sm:text-sm text-[#3D3238] leading-relaxed">
-                              {problem.symptom}
-                            </p>
-                          </div>
+                          <h3
+                            className={`font-serif-luxury text-xl sm:text-2xl font-medium leading-snug transition-colors ${
+                              isSelected ? 'text-[#171318]' : 'text-[#171318]/85 group-hover:text-[#A82F55]'
+                            }`}
+                          >
+                            {problem.title}
+                          </h3>
                         </div>
-                        <span
-                          className={`text-xs font-semibold uppercase tracking-wider shrink-0 mt-1 transition-colors ${
-                            isSelected ? 'text-[#A82F55]' : 'text-[#4A3F45] group-hover:text-[#A82F55]'
-                          }`}
-                        >
-                          {isSelected ? 'Ouvert' : 'Voir'}
-                        </span>
+                        <p className="mt-2 text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                          {problem.symptom}
+                        </p>
                       </div>
                     </button>
+                  );
+                })}
+              </div>
 
-                    {isSelected && (
-                      <div className="mt-5 pt-4 border-t border-[#A82F55]/15 grid grid-cols-1 sm:grid-cols-2 gap-5 pl-0 sm:pl-44 md:pl-49">
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#A82F55] mb-1">
-                            Ce qui abîme ta peau
-                          </div>
-                          <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
-                            {problem.cause}
-                          </p>
-                        </div>
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#171318] mb-1">
-                            Premier réflexe Gloria
-                          </div>
-                          <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
-                            {problem.reflex}
-                          </p>
-                        </div>
-
-                        <div className="sm:col-span-2 pt-1 flex flex-wrap items-center justify-between gap-3">
-                          <span className="text-xs text-[#4A3F45]">
-                            Approche naturelle · Sans dépendance chimique
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setConcern(problem.concernKey);
-                              setQuizStep(1);
-                              setDiagnosticResult(null);
-                              setIsDiagnosticOpen(true);
-                            }}
-                            className="text-xs font-bold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-1.5 cursor-pointer transition-colors"
-                          >
-                            <span>Corriger ce problème</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+              {/* Focused Interactive Cause & First Reflex Strip */}
+              <div className="mt-10 sm:mt-12 pt-8 border-t border-[#A82F55]/25 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+                <div className="lg:col-span-4">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#A82F55] mb-1.5">
+                    {activeProblem.num} Ce qui abîme ta peau
                   </div>
-                );
-              })}
-            </div>
+                  <p className="text-xs sm:text-sm text-[#171318] leading-relaxed font-medium">
+                    {activeProblem.cause}
+                  </p>
+                </div>
 
-          </div>
-        </section>
+                <div className="lg:col-span-5">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#171318] mb-1.5">
+                    Premier réflexe Gloria
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                    {activeProblem.reflex}
+                  </p>
+                </div>
 
-        {/* ========================================================
+                <div className="lg:col-span-3 flex lg:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setConcern(activeProblem.concernKey);
+                      setQuizStep(1);
+                      setDiagnosticResult(null);
+                      setIsDiagnosticOpen(true);
+                    }}
+                    className="group text-xs sm:text-sm font-bold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap shrink-0"
+                  >
+                    <span>Corriger ce problème</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
         {/* ========================================================
             SECTION SOLUTION (MÉTHODE EN 3 ÉTAPES EN ZIG-ZAG SUR ARRIÈRE-PLAN)
             ======================================================== */}
