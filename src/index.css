@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-rose-signature: #D45578;
+    --color-rose-profond: #A82F55;
+    --color-rose-poudre: #F2CFD9;
+    --color-noir-chic: #171318;
+    --color-blanc-pur: #FFFFFF;
+    --color-gris-mauve: #6F6268;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #F2CFD9;
+    color: #171318;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+.font-serif-luxury {
+  font-family: 'Cormorant Garamond', Garamond, Georgia, serif;
+}
+
+.font-sans-clean {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Radiant Rose Button Glow */
+@keyframes rose-button-glow {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(212, 85, 120, 0.45), 0 4px 14px rgba(212, 85, 120, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(212, 85, 120, 0.8), 0 8px 24px rgba(212, 85, 120, 0.55);
+  }
+}
+
+.animate-rose-glow {
+  animation: rose-button-glow 2.6s ease-in-out infinite;
+}
+

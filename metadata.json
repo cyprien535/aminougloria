@@ -1,0 +1,6 @@
+{
+  "name": "Gloria Aminou — Beauty Coach & Cosmétique Naturelle",
+  "description": "Site officiel de Gloria Aminou, beauty coach béninoise et créatrice de contenus spécialisée dans la cosmétique naturelle et les routines beauté simples et responsables.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
