@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { 
   ArrowRight, 
   CheckCircle2, 
@@ -18,12 +18,7 @@ import {
 import {
   AnimatePresence,
   motion,
-  MotionConfig,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform
+  MotionConfig
 } from 'motion/react';
 import { FaqSection } from './components/FaqSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
@@ -174,50 +169,6 @@ const SOLUTION_PILLARS = [
 ] as const;
 
 export default function App() {
-  const heroRef = useRef<HTMLElement>(null);
-  const shouldReduceMotion = useReducedMotion();
-
-  // Hero Scroll Parallax & Subtle 3D Pointer Depth
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start']
-  });
-  const heroScrollSmooth = useSpring(heroScrollProgress, {
-    stiffness: 180,
-    damping: 26,
-    mass: 0.5
-  });
-  const heroPortraitY = useTransform(heroScrollSmooth, [0, 1], [0, -48]);
-  const heroPortraitScale = useTransform(heroScrollSmooth, [0, 1], [1, 1.06]);
-  const heroTextY = useTransform(heroScrollSmooth, [0, 1], [0, 28]);
-
-  const heroPointerX = useMotionValue(0);
-  const heroPointerY = useMotionValue(0);
-  const heroRotateX = useSpring(useTransform(heroPointerY, [-0.5, 0.5], [2.4, -2.4]), {
-    stiffness: 220,
-    damping: 26
-  });
-  const heroRotateY = useSpring(useTransform(heroPointerX, [-0.5, 0.5], [-2.8, 2.8]), {
-    stiffness: 220,
-    damping: 26
-  });
-  const portraitShiftX = useSpring(useTransform(heroPointerX, [-0.5, 0.5], [-10, 10]), {
-    stiffness: 180,
-    damping: 24
-  });
-
-  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (shouldReduceMotion || !heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    heroPointerX.set((e.clientX - rect.left) / rect.width - 0.5);
-    heroPointerY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const handleHeroMouseLeave = () => {
-    heroPointerX.set(0);
-    heroPointerY.set(0);
-  };
-
   // Navigation & Modals
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -394,27 +345,11 @@ export default function App() {
         </motion.header>
 
         {/* ========================================================
-            HERO SECTION (Large Framed Rounded Card - Foreground z-30 with 3D Depth)
+            HERO SECTION (Large Framed Rounded Card - Static, Zero Motion)
             ======================================================== */}
-        <motion.section
-          ref={heroRef}
+        <section
           id="accueil"
-          onMouseMove={handleHeroMouseMove}
-          onMouseLeave={handleHeroMouseLeave}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  transformPerspective: 1600,
-                  rotateX: heroRotateX,
-                  rotateY: heroRotateY,
-                  transformStyle: 'preserve-3d'
-                }
-          }
-          transition={{ duration: 0.48, ease: EASE_LUXURY }}
-          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between will-change-transform"
+          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between"
         >
           {/* Left-to-Right Gradient Backdrop behind the text content */}
           <div 
@@ -422,97 +357,56 @@ export default function App() {
             aria-hidden="true" 
           />
 
-          {/* Left Content Area (Scroll Parallax Depth) */}
-          <motion.div
-            style={shouldReduceMotion ? undefined : { y: heroTextY }}
-            className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center"
-          >
+          {/* Left Content Area */}
+          <div className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center">
             
             {/* Wireframe Bar 1: Eyebrow capsule */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.06, ease: EASE_LUXURY }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-xs font-semibold tracking-wider uppercase shadow-xs mb-4"
-            >
-              <span className="w-2 h-2 rounded-full bg-[#D45578] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-xs font-semibold tracking-wider uppercase shadow-xs mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#D45578]" />
               Gloria Aminou · La Régénératrice
-            </motion.div>
+            </div>
 
-            {/* Wireframe Bar 2: Main Headline from copywrite.txt */}
-            <motion.h1
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.46, delay: 0.12, ease: EASE_LUXURY }}
-              className="font-serif-luxury text-3xl sm:text-5xl lg:text-[58px] text-[#171318] leading-[1.08] font-medium tracking-tight mb-4"
-            >
+            {/* Wireframe Bar 2: Main Headline */}
+            <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-[58px] text-[#171318] leading-[1.08] font-medium tracking-tight mb-4">
               Peau brûlée, éclaircie ou abîmée ? <br />
               <span className="text-[#D45578] italic">Retrouve ton vrai teint.</span>
-            </motion.h1>
+            </h1>
 
             {/* Wireframe Bar 3: Subtitle / Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.42, delay: 0.18, ease: EASE_LUXURY }}
-              className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal"
-            >
+            <p className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
               Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus ?
-            </motion.p>
+            </p>
 
-            {/* Wireframe Bar 4: Action Button with Glowing Effect */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.24, ease: EASE_LUXURY }}
-              className="flex items-center"
-            >
-              <motion.button
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+            {/* Wireframe Bar 4: Action Button */}
+            <div className="flex items-center">
+              <button
+                type="button"
                 onClick={() => {
                   setQuizStep(1);
                   setDiagnosticResult(null);
                   setIsDiagnosticOpen(true);
                 }}
-                className="group relative flex items-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50 animate-rose-glow"
+                className="group relative flex items-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50"
               >
                 <span>Je corrige ma peau</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
 
             {/* Method Tag with Smooth Scroll */}
-            <motion.a
+            <a
               href="#solution"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.3, ease: EASE_LUXURY }}
               className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex items-center gap-2 transition-colors cursor-pointer group"
             >
               <span className="text-[#D45578] font-bold">Approche :</span>
               <span className="font-medium text-[#171318] group-hover:text-[#D45578] transition-colors">Réparer · Équilibrer · Régénérer</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </motion.a>
+            </a>
 
-          </motion.div>
+          </div>
 
-          {/* Foreground Portrait Cutout on the right with 3D Scroll + Pointer Depth */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            style={
-              shouldReduceMotion
-                ? undefined
-                : {
-                    y: heroPortraitY,
-                    x: portraitShiftX,
-                    scale: heroPortraitScale
-                  }
-            }
-            transition={{ duration: 0.55, delay: 0.14, ease: EASE_LUXURY }}
-            className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12 will-change-transform"
-          >
+          {/* Foreground Portrait Cutout on the right */}
+          <div className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12">
             <img 
               src={PORTRAIT_CUTOUT} 
               alt="Gloria Aminou - Beauty coach béninoise"
@@ -523,8 +417,8 @@ export default function App() {
               fetchPriority="high"
               className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_24px_44px_rgba(23,19,24,0.26)] select-none"
             />
-          </motion.div>
-        </motion.section>
+          </div>
+        </section>
 
         {/* ========================================================
             SECTION PROBLÈME (GALERIE ÉDITORIALE EN 3 COLONNES SUR ARRIÈRE-PLAN)
