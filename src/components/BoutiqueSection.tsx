@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Minus, Plus, ShoppingBag, Sparkles, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import { EASE_LUXURY, Scroll3DReveal, Tilt3DCard } from './Motion3D';
 
 export type RoutinePhaseFilter = 'tous' | 'reparer' | 'equilibrer' | 'regenerer';
 
@@ -69,8 +70,6 @@ const PHASE_FILTERS: Array<{ id: RoutinePhaseFilter; label: string }> = [
   { id: 'equilibrer', label: 'Équilibrer' },
   { id: 'regenerer', label: 'Régénérer' }
 ];
-
-const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface CartEntry {
   product: BoutiqueProduct;
@@ -154,10 +153,11 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
     >
       {/* Editorial Split Header + Phase Filter & Bag Trigger */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 24, rotateX: 8 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.45, ease: EASE_LUXURY }}
+        style={{ transformPerspective: 1000 }}
+        transition={{ duration: 0.5, ease: EASE_LUXURY }}
         className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 sm:pb-10 border-b border-[#A82F55]/25"
       >
         <div className="max-w-2xl">
@@ -213,8 +213,8 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
           {/* Bag Button with Live Tabular Count */}
           <motion.button
             type="button"
-            whileHover={{ y: -1 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ y: -2, scale: 1.02 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => setIsCartOpen(true)}
             aria-label={`Ouvrir le panier (${totalItems} article${totalItems > 1 ? 's' : ''})`}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#FFFFFF] border border-[#A82F55]/25 hover:border-[#A82F55] text-[#171318] text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shrink-0 shadow-xs"
@@ -223,7 +223,7 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
             <span>Panier</span>
             <motion.span
               key={totalItems}
-              initial={{ scale: 1.25 }}
+              initial={{ scale: 1.3 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.2 }}
               className="tabular-nums text-[#A82F55] font-bold"
@@ -248,44 +248,49 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
               <motion.article
                 key={product.id}
                 layout
-                initial={{ opacity: 0, y: 20, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, y: 26, rotateX: 10, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
                 viewport={{ once: true, amount: 0.15 }}
-                whileHover={{ y: -4 }}
+                style={{ transformPerspective: 1000 }}
                 transition={{
-                  duration: 0.4,
-                  delay: index * 0.06,
+                  duration: 0.48,
+                  delay: index * 0.08,
                   ease: EASE_LUXURY
                 }}
                 className="group flex flex-col justify-between"
               >
                 <div>
-                  {/* Product Photography (4:3, neutral warm travertine backdrop) */}
-                  <div className="relative w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-[#FFFFFF] border border-[#A82F55]/15 shadow-sm group-hover:shadow-md transition-shadow">
-                    {isImageFailed ? (
-                      <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#FCE4EC]/60">
-                        <Sparkles className="w-8 h-8 text-[#A82F55] mb-2" />
-                        <span className="font-serif-luxury text-xl text-[#171318]">
-                          {product.name}
-                        </span>
-                      </div>
-                    ) : (
-                      <img
-                        src={product.image}
-                        alt={product.imageAlt}
-                        width={900}
-                        height={672}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        onError={() =>
-                          setFailedImages((prev) => ({ ...prev, [product.image]: true }))
-                        }
-                        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                      />
-                    )}
-                  </div>
+                  {/* 3D Interactive Product Photography (4:3) */}
+                  <Scroll3DReveal direction="up">
+                    <Tilt3DCard
+                      intensity={11}
+                      className="w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-[#FFFFFF] border border-[#A82F55]/15 shadow-sm group-hover:shadow-xl transition-shadow"
+                    >
+                      {isImageFailed ? (
+                        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#FCE4EC]/60">
+                          <Sparkles className="w-8 h-8 text-[#A82F55] mb-2" />
+                          <span className="font-serif-luxury text-xl text-[#171318]">
+                            {product.name}
+                          </span>
+                        </div>
+                      ) : (
+                        <img
+                          src={product.image}
+                          alt={product.imageAlt}
+                          width={900}
+                          height={672}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          onError={() =>
+                            setFailedImages((prev) => ({ ...prev, [product.image]: true }))
+                          }
+                          className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-500"
+                        />
+                      )}
+                    </Tilt3DCard>
+                  </Scroll3DReveal>
 
                   {/* Clean Unboxed Metadata */}
                   <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-[#4A3F45] font-medium">

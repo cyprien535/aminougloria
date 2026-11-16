@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { 
   ArrowRight, 
   CheckCircle2, 
@@ -15,15 +15,29 @@ import {
   Send,
   Sparkles
 } from 'lucide-react';
-import { AnimatePresence, motion, MotionConfig } from 'motion/react';
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform
+} from 'motion/react';
 import { FaqSection } from './components/FaqSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { CtaSection } from './components/CtaSection';
 import { FooterSection } from './components/FooterSection';
+import {
+  EASE_LUXURY,
+  Scroll3DReveal,
+  ScrollProgressBar,
+  Tilt3DCard
+} from './components/Motion3D';
 
 // Visual Assets (Optimized WebP)
 const PORTRAIT_CUTOUT = "/assets/webp/gloria-portrait.webp";
-const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface DiagnosticResult {
   skinType: string;
@@ -160,6 +174,50 @@ const SOLUTION_PILLARS = [
 ] as const;
 
 export default function App() {
+  const heroRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Hero Scroll Parallax & Subtle 3D Pointer Depth
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start']
+  });
+  const heroScrollSmooth = useSpring(heroScrollProgress, {
+    stiffness: 180,
+    damping: 26,
+    mass: 0.5
+  });
+  const heroPortraitY = useTransform(heroScrollSmooth, [0, 1], [0, -48]);
+  const heroPortraitScale = useTransform(heroScrollSmooth, [0, 1], [1, 1.06]);
+  const heroTextY = useTransform(heroScrollSmooth, [0, 1], [0, 28]);
+
+  const heroPointerX = useMotionValue(0);
+  const heroPointerY = useMotionValue(0);
+  const heroRotateX = useSpring(useTransform(heroPointerY, [-0.5, 0.5], [2.4, -2.4]), {
+    stiffness: 220,
+    damping: 26
+  });
+  const heroRotateY = useSpring(useTransform(heroPointerX, [-0.5, 0.5], [-2.8, 2.8]), {
+    stiffness: 220,
+    damping: 26
+  });
+  const portraitShiftX = useSpring(useTransform(heroPointerX, [-0.5, 0.5], [-10, 10]), {
+    stiffness: 180,
+    damping: 24
+  });
+
+  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (shouldReduceMotion || !heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    heroPointerX.set((e.clientX - rect.left) / rect.width - 0.5);
+    heroPointerY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleHeroMouseLeave = () => {
+    heroPointerX.set(0);
+    heroPointerY.set(0);
+  };
+
   // Navigation & Modals
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -254,11 +312,14 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
     <div className="min-h-screen bg-[#F2CFD9] text-[#171318] font-sans-clean selection:bg-[#D45578] selection:text-[#FFFFFF] flex flex-col justify-between p-3 sm:p-5 md:p-6 relative overflow-x-hidden">
+      {/* Reading Progress Bar */}
+      <ScrollProgressBar />
+
       {/* Subtle Luxury Grain Overlay */}
       <div className="beauty-grain" aria-hidden="true" />
 
       {/* Main Framed Container */}
-      <div className="w-full max-w-[1560px] mx-auto flex flex-col flex-1 items-center gap-4 sm:gap-5 md:gap-6 relative z-10">
+      <div className="w-full max-w-[1560px] mx-auto flex flex-col flex-1 items-center gap-4 sm:gap-5 md:gap-6 relative z-10 [perspective:1400px]">
 
         {/* ========================================================
             NAVIGATION (3D Brand + Accueil / Services / Boutique + Button)
@@ -333,14 +394,27 @@ export default function App() {
         </motion.header>
 
         {/* ========================================================
-            HERO SECTION (Large Framed Rounded Card - Foreground z-30)
+            HERO SECTION (Large Framed Rounded Card - Foreground z-30 with 3D Depth)
             ======================================================== */}
         <motion.section
+          ref={heroRef}
           id="accueil"
+          onMouseMove={handleHeroMouseMove}
+          onMouseLeave={handleHeroMouseLeave}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
+          style={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  transformPerspective: 1600,
+                  rotateX: heroRotateX,
+                  rotateY: heroRotateY,
+                  transformStyle: 'preserve-3d'
+                }
+          }
           transition={{ duration: 0.48, ease: EASE_LUXURY }}
-          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between"
+          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between will-change-transform"
         >
           {/* Left-to-Right Gradient Backdrop behind the text content */}
           <div 
@@ -348,8 +422,11 @@ export default function App() {
             aria-hidden="true" 
           />
 
-          {/* Left Content Area (The 4 wireframed elements) */}
-          <div className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center">
+          {/* Left Content Area (Scroll Parallax Depth) */}
+          <motion.div
+            style={shouldReduceMotion ? undefined : { y: heroTextY }}
+            className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center"
+          >
             
             {/* Wireframe Bar 1: Eyebrow capsule */}
             <motion.div
@@ -391,7 +468,7 @@ export default function App() {
               className="flex items-center"
             >
               <motion.button
-                whileHover={{ y: -2, scale: 1.01 }}
+                whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => {
                   setQuizStep(1);
@@ -418,14 +495,23 @@ export default function App() {
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </motion.a>
 
-          </div>
+          </motion.div>
 
-          {/* Foreground Portrait Cutout on the right (Infinitely responsive across any card shape/size) */}
+          {/* Foreground Portrait Cutout on the right with 3D Scroll + Pointer Depth */}
           <motion.div
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
+            style={
+              shouldReduceMotion
+                ? undefined
+                : {
+                    y: heroPortraitY,
+                    x: portraitShiftX,
+                    scale: heroPortraitScale
+                  }
+            }
             transition={{ duration: 0.55, delay: 0.14, ease: EASE_LUXURY }}
-            className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12"
+            className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12 will-change-transform"
           >
             <img 
               src={PORTRAIT_CUTOUT} 
@@ -435,7 +521,7 @@ export default function App() {
               loading="eager"
               decoding="sync"
               fetchPriority="high"
-              className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(23,19,24,0.22)] select-none"
+              className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_24px_44px_rgba(23,19,24,0.26)] select-none"
             />
           </motion.div>
         </motion.section>
@@ -515,48 +601,51 @@ export default function App() {
                       aria-pressed={isSelected}
                       className="text-left group cursor-pointer flex flex-col items-start focus:outline-none"
                     >
-                      {/* Full-Width Column Image (4:3, single or 2-up diptych) */}
-                      <div
-                        className={`relative w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 transition-all duration-300 ${
-                          isSelected
-                            ? 'ring-2 ring-[#A82F55] shadow-lg'
-                            : 'shadow-sm opacity-90 group-hover:opacity-100 group-hover:shadow-md'
-                        }`}
-                      >
-                        <div
-                          className={`absolute inset-0 ${
-                            isDiptych ? 'grid grid-cols-2 gap-1' : 'w-full h-full'
+                      {/* Full-Width Column Image (4:3, single or 2-up diptych) with 3D Scroll & Tilt */}
+                      <Scroll3DReveal direction="up" className="w-full">
+                        <Tilt3DCard
+                          intensity={11}
+                          className={`relative w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 transition-all duration-300 ${
+                            isSelected
+                              ? 'ring-2 ring-[#A82F55] shadow-lg'
+                              : 'shadow-sm opacity-90 group-hover:opacity-100 group-hover:shadow-xl'
                           }`}
                         >
-                          {problem.images.map((img) => {
-                            const isFailed = Boolean(failedImages[img.src]);
-                            return isFailed ? (
-                              <div
-                                key={img.src}
-                                className="w-full h-full min-h-0 flex flex-col items-center justify-center p-4 text-center bg-[#FCE4EC]/70"
-                              >
-                                <Sparkles className="w-7 h-7 text-[#A82F55] mb-1.5" />
-                                <span className="font-serif-luxury text-sm text-[#171318]">
-                                  {problem.title}
-                                </span>
-                              </div>
-                            ) : (
-                              <img
-                                key={img.src}
-                                src={img.src}
-                                alt={img.alt}
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                onError={() =>
-                                  setFailedImages((prev) => ({ ...prev, [img.src]: true }))
-                                }
-                                className={`w-full h-full min-h-0 object-cover ${img.objectPosition ?? 'object-center'} group-hover:scale-[1.04] transition-transform duration-500`}
-                              />
-                            );
-                          })}
-                        </div>
-                      </div>
+                          <div
+                            className={`absolute inset-0 ${
+                              isDiptych ? 'grid grid-cols-2 gap-1' : 'w-full h-full'
+                            }`}
+                          >
+                            {problem.images.map((img) => {
+                              const isFailed = Boolean(failedImages[img.src]);
+                              return isFailed ? (
+                                <div
+                                  key={img.src}
+                                  className="w-full h-full min-h-0 flex flex-col items-center justify-center p-4 text-center bg-[#FCE4EC]/70"
+                                >
+                                  <Sparkles className="w-7 h-7 text-[#A82F55] mb-1.5" />
+                                  <span className="font-serif-luxury text-sm text-[#171318]">
+                                    {problem.title}
+                                  </span>
+                                </div>
+                              ) : (
+                                <img
+                                  key={img.src}
+                                  src={img.src}
+                                  alt={img.alt}
+                                  loading="lazy"
+                                  decoding="async"
+                                  referrerPolicy="no-referrer"
+                                  onError={() =>
+                                    setFailedImages((prev) => ({ ...prev, [img.src]: true }))
+                                  }
+                                  className={`w-full h-full min-h-0 object-cover ${img.objectPosition ?? 'object-center'} group-hover:scale-[1.05] transition-transform duration-500`}
+                                />
+                              );
+                            })}
+                          </div>
+                        </Tilt3DCard>
+                      </Scroll3DReveal>
 
                       {/* Editorial Number, Title & Symptom */}
                       <div className="mt-5 w-full">
@@ -585,15 +674,16 @@ export default function App() {
                 })}
               </div>
 
-              {/* Focused Interactive Cause & First Reflex Strip */}
-              <div className="mt-10 sm:mt-12 pt-8 border-t border-[#A82F55]/25">
+              {/* Focused Interactive Cause & First Reflex Strip with 3D Flip Transition */}
+              <div className="mt-10 sm:mt-12 pt-8 border-t border-[#A82F55]/25 [perspective:900px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeProblem.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.22, ease: EASE_LUXURY }}
+                    initial={{ opacity: 0, y: 10, rotateX: 9 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    exit={{ opacity: 0, y: -10, rotateX: -9 }}
+                    style={{ transformPerspective: 900 }}
+                    transition={{ duration: 0.28, ease: EASE_LUXURY }}
                     className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center"
                   >
                     <div className="lg:col-span-4">
@@ -675,52 +765,52 @@ export default function App() {
                   key={pillar.id}
                   className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center"
                 >
-                  {/* Step Image Block (Left on Steps 1 & 3, Right on Step 2) */}
-                  <motion.div
-                    initial={{ opacity: 0, x: isImageRight ? 24 : -24 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.5, ease: EASE_LUXURY }}
+                  {/* Step Image Block (Left on Steps 1 & 3, Right on Step 2) with 3D Scroll Unfold & Tilt */}
+                  <div
                     className={`${
                       isStepThree ? 'lg:col-span-6' : 'lg:col-span-5'
                     } ${isImageRight ? 'lg:order-2' : 'lg:order-1'}`}
                   >
-                    <div
-                      className={`w-full overflow-hidden rounded-[28px] md:rounded-[36px] bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 shadow-md ${
-                        isStepThree ? 'aspect-[4/3] sm:aspect-[5/4]' : 'aspect-[4/3]'
-                      }`}
-                    >
-                      {isImageFailed ? (
-                        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
-                          <Sparkles className="w-10 h-10 text-[#A82F55] mb-3" />
-                          <p className="font-serif-luxury text-2xl text-[#171318] font-medium">
-                            {pillar.actif}
-                          </p>
-                        </div>
-                      ) : (
-                        <img
-                          src={pillar.image}
-                          alt={pillar.imageAlt}
-                          width={900}
-                          height={672}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          onError={() =>
-                            setFailedImages((prev) => ({ ...prev, [pillar.image]: true }))
-                          }
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-                        />
-                      )}
-                    </div>
-                  </motion.div>
+                    <Scroll3DReveal direction={isImageRight ? 'right' : 'left'}>
+                      <Tilt3DCard
+                        intensity={10}
+                        className={`group w-full overflow-hidden rounded-[28px] md:rounded-[36px] bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 shadow-md hover:shadow-xl transition-shadow ${
+                          isStepThree ? 'aspect-[4/3] sm:aspect-[5/4]' : 'aspect-[4/3]'
+                        }`}
+                      >
+                        {isImageFailed ? (
+                          <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
+                            <Sparkles className="w-10 h-10 text-[#A82F55] mb-3" />
+                            <p className="font-serif-luxury text-2xl text-[#171318] font-medium">
+                              {pillar.actif}
+                            </p>
+                          </div>
+                        ) : (
+                          <img
+                            src={pillar.image}
+                            alt={pillar.imageAlt}
+                            width={900}
+                            height={672}
+                            loading="lazy"
+                            decoding="async"
+                            referrerPolicy="no-referrer"
+                            onError={() =>
+                              setFailedImages((prev) => ({ ...prev, [pillar.image]: true }))
+                            }
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                          />
+                        )}
+                      </Tilt3DCard>
+                    </Scroll3DReveal>
+                  </div>
 
                   {/* Step Editorial Text Block (Right on Steps 1 & 3, Left on Step 2) */}
                   <motion.div
-                    initial={{ opacity: 0, x: isImageRight ? -24 : 24 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, x: isImageRight ? -24 : 24, rotateY: isImageRight ? 6 : -6 }}
+                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.5, delay: 0.06, ease: EASE_LUXURY }}
+                    style={{ transformPerspective: 1100 }}
+                    transition={{ duration: 0.55, delay: 0.06, ease: EASE_LUXURY }}
                     className={`${
                       isStepThree ? 'lg:col-span-6' : 'lg:col-span-7'
                     } ${isImageRight ? 'lg:order-1' : 'lg:order-2'} flex flex-col items-start`}

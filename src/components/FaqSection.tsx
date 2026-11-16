@@ -62,7 +62,14 @@ export function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqAccordion
   const numLabel = `0${index + 1}.`;
 
   return (
-    <div className="border-b border-[#A82F55]/25">
+    <motion.div
+      initial={{ opacity: 0, y: 18, rotateX: 10 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      style={{ transformPerspective: 950 }}
+      transition={{ duration: 0.42, delay: index * 0.05, ease: EASE_LUXURY }}
+      className="border-b border-[#A82F55]/25"
+    >
       <button
         id={buttonId}
         type="button"
@@ -90,7 +97,7 @@ export function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqAccordion
 
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.25, ease: EASE_LUXURY }}
+          transition={{ duration: 0.28, ease: EASE_LUXURY }}
           className="shrink-0 mt-1 text-[#A82F55]"
           aria-hidden="true"
         >
@@ -107,7 +114,7 @@ export function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqAccordion
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.26, ease: EASE_LUXURY }}
+            transition={{ duration: 0.28, ease: EASE_LUXURY }}
             className="overflow-hidden"
           >
             <div className="pb-6 pl-8 sm:pl-10 pr-4 sm:pr-8">
@@ -118,7 +125,7 @@ export function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqAccordion
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
