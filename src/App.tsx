@@ -21,7 +21,6 @@ import {
   MotionConfig
 } from 'motion/react';
 import { AproposSection } from './components/AproposSection';
-import { FaqSection } from './components/FaqSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { CtaSection } from './components/CtaSection';
 import { FooterSection } from './components/FooterSection';
@@ -316,16 +315,6 @@ export default function App() {
             <button
               type="button"
               onClick={() => {
-                const el = document.getElementById('apropos');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              À propos
-            </button>
-            <button
-              type="button"
-              onClick={() => {
                 const el = document.getElementById('boutique');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
@@ -336,12 +325,12 @@ export default function App() {
             <button
               type="button"
               onClick={() => {
-                const el = document.getElementById('faq');
+                const el = document.getElementById('apropos');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
-              FAQ
+              À propos
             </button>
           </nav>
 
@@ -826,18 +815,6 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SECTION À PROPOS (HISTOIRE & PHILOSOPHIE GLORIA AMINOU)
-            ======================================================== */}
-        <AproposSection
-          onOpenBooking={() => setIsBookingOpen(true)}
-          onOpenDiagnostic={() => {
-            setQuizStep(1);
-            setDiagnosticResult(null);
-            setIsDiagnosticOpen(true);
-          }}
-        />
-
-        {/* ========================================================
             SECTION BOUTIQUE (NOS PRODUITS NATURELS & PANIER)
             ======================================================== */}
         <BoutiqueSection
@@ -853,15 +830,15 @@ export default function App() {
         />
 
         {/* ========================================================
-            SECTION FAQ (QUESTIONS FRÉQUENTES SUR LES SOINS NATURELS)
+            SECTION À PROPOS (HISTOIRE & PHILOSOPHIE GLORIA AMINOU)
             ======================================================== */}
-        <FaqSection
+        <AproposSection
+          onOpenBooking={() => setIsBookingOpen(true)}
           onOpenDiagnostic={() => {
             setQuizStep(1);
             setDiagnosticResult(null);
             setIsDiagnosticOpen(true);
           }}
-          onOpenBooking={() => setIsBookingOpen(true)}
         />
 
         {/* ========================================================
@@ -1342,14 +1319,6 @@ export default function App() {
                     } 
                   },
                   { 
-                    name: "À propos de Gloria", 
-                    action: () => { 
-                      setIsMenuOpen(false); 
-                      const el = document.getElementById('apropos');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    } 
-                  },
-                  { 
                     name: "Boutique", 
                     action: () => { 
                       setIsMenuOpen(false); 
@@ -1358,10 +1327,10 @@ export default function App() {
                     } 
                   },
                   { 
-                    name: "Questions fréquentes", 
+                    name: "À propos de Gloria", 
                     action: () => { 
                       setIsMenuOpen(false); 
-                      const el = document.getElementById('faq');
+                      const el = document.getElementById('apropos');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   }

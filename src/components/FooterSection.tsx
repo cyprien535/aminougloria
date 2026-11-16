@@ -77,13 +77,6 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
             </button>
             <button
               type="button"
-              onClick={() => scrollToSection('apropos')}
-              className="text-left hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors cursor-pointer"
-            >
-              À propos
-            </button>
-            <button
-              type="button"
               onClick={() => scrollToSection('boutique')}
               className="text-left hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors cursor-pointer"
             >
@@ -91,10 +84,10 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
             </button>
             <button
               type="button"
-              onClick={() => scrollToSection('faq')}
+              onClick={() => scrollToSection('apropos')}
               className="text-left hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors cursor-pointer"
             >
-              Questions fréquentes
+              À propos
             </button>
             <button
               type="button"
