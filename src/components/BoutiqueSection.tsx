@@ -149,7 +149,7 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
   return (
     <section
       id="boutique"
-      className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-22 px-2 sm:px-4 md:px-6"
+      className="relative z-0 w-full lg:w-[95%] max-w-[1390px] py-12 sm:py-16 md:py-22 px-1 sm:px-4 md:px-6"
     >
       {/* Editorial Split Header + Phase Filter & Bag Trigger */}
       <motion.div
@@ -175,12 +175,12 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full lg:w-auto lg:shrink-0">
           {/* Interactive Routine Filter Segmented Control */}
           <div
             role="tablist"
             aria-label="Filtrer les produits par étape"
-            className="inline-flex flex-wrap items-center gap-1 p-1 rounded-full bg-[#FFFFFF]/70 border border-[#A82F55]/20"
+            className="inline-flex flex-wrap items-center gap-1 p-1 rounded-2xl sm:rounded-full bg-[#FFFFFF]/75 border border-[#A82F55]/20 max-w-full"
           >
             {PHASE_FILTERS.map((tab) => {
               const isActive = activeFilter === tab.id;
@@ -191,7 +191,7 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveFilter(tab.id)}
-                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                  className={`relative px-3 sm:px-3.5 py-2 rounded-full text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'text-[#FFFFFF]'
                       : 'text-[#3D3238] hover:text-[#171318]'
@@ -234,10 +234,10 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
         </div>
       </motion.div>
 
-      {/* 3-Column Product Collection Grid */}
+      {/* Product Collection Grid (1 col mobile, 2 cols tablet, 3 cols desktop) */}
       <motion.div
         layout
-        className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-9"
+        className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-9"
       >
         <AnimatePresence mode="popLayout">
           {filteredProducts.map((product, index) => {
@@ -317,7 +317,7 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
                 </div>
 
                 {/* Action Bar */}
-                <div className="mt-5 pt-4 border-t border-[#A82F55]/20 flex items-center justify-between gap-3">
+                <div className="mt-5 pt-4 border-t border-[#A82F55]/20 flex flex-wrap items-center justify-between gap-3">
                   <motion.button
                     type="button"
                     whileTap={{ scale: 0.96 }}
@@ -370,6 +370,7 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
+            onClick={() => setIsCartOpen(false)}
             className="fixed inset-0 z-50 flex justify-end bg-[#171318]/65 backdrop-blur-sm"
           >
             <motion.div
@@ -377,7 +378,8 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 360, damping: 34 }}
-              className="relative w-full max-w-md h-full bg-[#FFFFFF] border-l border-[#F2CFD9] p-6 sm:p-8 flex flex-col justify-between shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-[92vw] max-w-md h-full bg-[#FFFFFF] border-l border-[#F2CFD9] p-5 sm:p-8 flex flex-col justify-between shadow-2xl"
             >
               <div className="flex items-center justify-between pb-4 border-b border-[#F2CFD9]">
                 <div>

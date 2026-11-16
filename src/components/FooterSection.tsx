@@ -28,7 +28,7 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
       viewport={{ once: true, amount: 0.2 }}
       style={{ transformPerspective: 1000 }}
       transition={{ duration: 0.5, ease: EASE_LUXURY }}
-      className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] pt-12 sm:pt-16 pb-8 sm:pb-10 px-2 sm:px-4 md:px-6 border-t border-[#A82F55]/25 mt-6"
+      className="relative z-0 w-full lg:w-[95%] max-w-[1390px] pt-12 sm:pt-16 pb-8 sm:pb-10 px-1 sm:px-4 md:px-6 border-t border-[#A82F55]/25 mt-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-[#A82F55]/20">
         {/* Brand & Positioning */}
@@ -74,6 +74,13 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
               className="text-left hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors cursor-pointer"
             >
               La Solution
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection('apropos')}
+              className="text-left hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors cursor-pointer"
+            >
+              À propos
             </button>
             <button
               type="button"

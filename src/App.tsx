@@ -20,6 +20,7 @@ import {
   motion,
   MotionConfig
 } from 'motion/react';
+import { AproposSection } from './components/AproposSection';
 import { FaqSection } from './components/FaqSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { CtaSection } from './components/CtaSection';
@@ -262,7 +263,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className="min-h-screen bg-[#F2CFD9] text-[#171318] font-sans-clean selection:bg-[#D45578] selection:text-[#FFFFFF] flex flex-col justify-between p-3 sm:p-5 md:p-6 relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#F2CFD9] text-[#171318] font-sans-clean selection:bg-[#D45578] selection:text-[#FFFFFF] flex flex-col justify-between p-2.5 sm:p-5 md:p-6 relative overflow-x-clip">
       {/* Reading Progress Bar */}
       <ScrollProgressBar />
 
@@ -270,16 +271,16 @@ export default function App() {
       <div className="beauty-grain" aria-hidden="true" />
 
       {/* Main Framed Container */}
-      <div className="w-full max-w-[1560px] mx-auto flex flex-col flex-1 items-center gap-4 sm:gap-5 md:gap-6 relative z-10 [perspective:1400px]">
+      <div className="w-full max-w-[1560px] mx-auto flex flex-col flex-1 items-center gap-3.5 sm:gap-5 md:gap-6 relative z-10 [perspective:1400px]">
 
         {/* ========================================================
-            NAVIGATION (3D Brand + Accueil / Services / Boutique + Button)
+            NAVIGATION (3D Brand + Responsive Links + Button + Mobile Drawer)
             ======================================================== */}
         <motion.header
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: EASE_LUXURY }}
-          className="w-[99%] sm:w-[98%] md:w-[97%] lg:w-[96%] max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-5 sm:px-8 md:px-10 py-2.5 sm:py-3 flex items-center justify-between gap-4 sm:gap-8 text-[#171318] shadow-sm shrink-0 transition-all"
+          className="sticky top-2.5 sm:top-3 z-40 w-full max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-3.5 sm:px-7 md:px-9 lg:px-10 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-5 lg:gap-8 text-[#171318] shadow-sm shrink-0 transition-all"
         >
           {/* Zone 1: 3D Brand Name */}
           <a
@@ -288,13 +289,13 @@ export default function App() {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="font-serif-luxury text-2xl sm:text-[26px] md:text-[30px] font-bold tracking-tight whitespace-nowrap shrink-0 text-3d-brand select-none"
+            className="font-serif-luxury text-lg sm:text-[24px] md:text-[26px] lg:text-[30px] font-bold tracking-tight whitespace-nowrap shrink-0 text-3d-brand select-none"
           >
             Gloria Aminou
           </a>
 
-          {/* Zone 2: Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#171318]">
+          {/* Zone 2: Desktop & Tablet Navigation Links */}
+          <nav aria-label="Navigation principale" className="hidden md:flex items-center gap-5 lg:gap-8 text-sm font-medium text-[#171318]">
             <button
               type="button"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -315,6 +316,16 @@ export default function App() {
             <button
               type="button"
               onClick={() => {
+                const el = document.getElementById('apropos');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              À propos
+            </button>
+            <button
+              type="button"
+              onClick={() => {
                 const el = document.getElementById('boutique');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
@@ -322,21 +333,32 @@ export default function App() {
             >
               Boutique
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById('faq');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              FAQ
+            </button>
           </nav>
 
           {/* Zone 3: Primary Button (+ mobile drawer trigger on small screens) */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <button
               type="button"
               onClick={() => setIsBookingOpen(true)}
-              className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer shadow-xs transition-colors"
+              className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-[11px] sm:text-xs font-semibold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer shadow-xs transition-colors"
             >
-              Prendre rendez-vous
+              <span className="sm:hidden">Rendez-vous</span>
+              <span className="hidden sm:inline">Prendre rendez-vous</span>
             </button>
             <button
               type="button"
               onClick={() => setIsMenuOpen(true)}
-              className="md:hidden p-2 rounded-full text-[#171318] hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
+              className="md:hidden p-2 rounded-full text-[#171318] hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer shrink-0"
               aria-label="Ouvrir le menu"
             >
               <MenuIcon className="w-5 h-5" />
@@ -345,68 +367,67 @@ export default function App() {
         </motion.header>
 
         {/* ========================================================
-            HERO SECTION (Large Framed Rounded Card - Static, Zero Motion)
+            HERO SECTION (Static, Responsive: Eyebrow -> Portrait -> Texts below lg)
             ======================================================== */}
         <section
           id="accueil"
-          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between"
+          className="relative z-30 w-full lg:w-[95%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-b lg:bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg lg:min-h-[78vh] flex flex-col lg:flex-row items-center justify-between"
         >
-          {/* Left-to-Right Gradient Backdrop behind the text content */}
+          {/* Gradient Backdrop behind text content */}
           <div 
-            className="absolute inset-y-0 left-0 w-full md:w-3/4 lg:w-3/5 bg-gradient-to-r from-[#FFFFFF]/95 via-[#FDF0F5]/80 to-transparent pointer-events-none z-0" 
+            className="absolute inset-0 lg:inset-y-0 lg:right-auto lg:w-3/5 bg-gradient-to-b lg:bg-gradient-to-r from-[#FFFFFF]/95 via-[#FDF0F5]/80 to-transparent pointer-events-none z-0" 
             aria-hidden="true" 
           />
 
-          {/* Left Content Area */}
-          <div className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center">
+          {/* Left Content Wrapper (becomes display:contents below lg so Eyebrow = 1st, Image = 2nd, Texts = 3rd) */}
+          <div className="contents lg:relative lg:z-10 lg:w-[54%] xl:w-[52%] lg:pl-14 xl:pl-16 lg:pr-4 lg:py-16 lg:flex lg:flex-col lg:items-start lg:justify-center">
             
-            {/* Wireframe Bar 1: Eyebrow capsule */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-xs font-semibold tracking-wider uppercase shadow-xs mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#D45578]" />
-              Gloria Aminou · La Régénératrice
+            {/* Eyebrow capsule (1st on mobile/tablet AND top of left column on desktop) */}
+            <div className="relative z-10 order-1 lg:order-none mt-6 sm:mt-8 lg:mt-0 mx-4 lg:mx-0 inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-[11px] sm:text-xs font-semibold tracking-wider uppercase shadow-xs lg:mb-4 max-w-[calc(100%-2rem)] text-center">
+              <span className="w-2 h-2 rounded-full bg-[#D45578] shrink-0" />
+              <span>Gloria Aminou · La Régénératrice</span>
             </div>
 
-            {/* Wireframe Bar 2: Main Headline */}
-            <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-[58px] text-[#171318] leading-[1.08] font-medium tracking-tight mb-4">
-              Peau brûlée, éclaircie ou abîmée ? <br />
-              <span className="text-[#D45578] italic">Retrouve ton vrai teint.</span>
-            </h1>
+            {/* Headline, Subtitle, CTA & Method link (3rd on mobile/tablet after Portrait, stacked on desktop) */}
+            <div className="relative z-10 order-3 lg:order-none w-full flex flex-col items-center text-center lg:items-start lg:text-left px-5 sm:px-10 lg:px-0 pt-5 pb-8 sm:pb-10 lg:py-0">
+              <h1 className="font-serif-luxury text-[28px] sm:text-4xl md:text-[46px] lg:text-[52px] xl:text-[58px] text-[#171318] leading-[1.1] font-medium tracking-tight mb-3 sm:mb-4 max-w-xl lg:max-w-none">
+                Peau brûlée, éclaircie ou abîmée ? <br className="hidden sm:inline" />
+                <span className="text-[#D45578] italic"> Retrouve ton vrai teint.</span>
+              </h1>
 
-            {/* Wireframe Bar 3: Subtitle / Description */}
-            <p className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
-              Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus ?
-            </p>
+              <p className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
+                Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus ?
+              </p>
 
-            {/* Wireframe Bar 4: Action Button */}
-            <div className="flex items-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setQuizStep(1);
-                  setDiagnosticResult(null);
-                  setIsDiagnosticOpen(true);
-                }}
-                className="group relative flex items-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50"
+              <div className="flex items-center justify-center lg:justify-start w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuizStep(1);
+                    setDiagnosticResult(null);
+                    setIsDiagnosticOpen(true);
+                  }}
+                  className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-6 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50"
+                >
+                  <span>Je corrige ma peau</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
+                </button>
+              </div>
+
+              <a
+                href="#solution"
+                className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 transition-colors cursor-pointer group"
               >
-                <span>Je corrige ma peau</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+                <span className="text-[#D45578] font-bold">Approche :</span>
+                <span className="font-medium text-[#171318] group-hover:text-[#D45578] transition-colors">Réparer · Équilibrer · Régénérer</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
+              </a>
             </div>
-
-            {/* Method Tag with Smooth Scroll */}
-            <a
-              href="#solution"
-              className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex items-center gap-2 transition-colors cursor-pointer group"
-            >
-              <span className="text-[#D45578] font-bold">Approche :</span>
-              <span className="font-medium text-[#171318] group-hover:text-[#D45578] transition-colors">Réparer · Équilibrer · Régénérer</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </a>
 
           </div>
 
-          {/* Foreground Portrait Cutout on the right */}
-          <div className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12">
+          {/* Foreground Portrait Cutout (2nd on mobile/tablet BEFORE Hero texts, right-pinned on desktop) */}
+          <div className="order-2 lg:order-none relative lg:absolute right-0 bottom-0 z-20 w-[86%] max-w-[300px] sm:max-w-[360px] lg:max-w-none lg:w-auto h-[260px] sm:h-[320px] lg:h-[94%] xl:h-[96%] mt-4 lg:mt-0 border-b border-[#D45578]/25 lg:border-b-0 flex items-end justify-center lg:justify-end pointer-events-none px-4 lg:px-0 lg:pr-8 xl:pr-12">
             <img 
               src={PORTRAIT_CUTOUT} 
               alt="Gloria Aminou - Beauty coach béninoise"
@@ -415,7 +436,7 @@ export default function App() {
               loading="eager"
               decoding="sync"
               fetchPriority="high"
-              className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_24px_44px_rgba(23,19,24,0.26)] select-none"
+              className="w-auto h-full max-h-[260px] sm:max-h-[320px] lg:max-h-[85vh] xl:max-h-[92vh] object-contain object-bottom drop-shadow-[0_24px_44px_rgba(23,19,24,0.26)] select-none"
             />
           </div>
         </section>
@@ -431,7 +452,7 @@ export default function App() {
           return (
             <section
               id="probleme"
-              className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-22 px-2 sm:px-4 md:px-6"
+              className="relative z-0 w-full lg:w-[95%] max-w-[1390px] py-12 sm:py-16 md:py-22 px-1 sm:px-4 md:px-6"
             >
               {/* Top Editorial Split Header */}
               <motion.div
@@ -467,7 +488,7 @@ export default function App() {
                       setDiagnosticResult(null);
                       setIsDiagnosticOpen(true);
                     }}
-                    className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                    className="group w-full sm:w-auto justify-center px-6 sm:px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                   >
                     <span>Identifier mon problème</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -625,7 +646,7 @@ export default function App() {
             ======================================================== */}
         <section
           id="solution"
-          className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-24 px-2 sm:px-4 md:px-6"
+          className="relative z-0 w-full lg:w-[95%] max-w-[1390px] py-12 sm:py-16 md:py-24 px-1 sm:px-4 md:px-6"
         >
           {/* Centered Top Header (Matching Wireframe) */}
           <motion.div
@@ -709,7 +730,7 @@ export default function App() {
                       isStepThree ? 'lg:col-span-6' : 'lg:col-span-7'
                     } ${isImageRight ? 'lg:order-1' : 'lg:order-2'} flex flex-col items-start`}
                   >
-                    <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-[#A82F55]">
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-semibold uppercase tracking-wider text-[#A82F55]">
                       <span>{pillar.stepLabel}</span>
                       <span aria-hidden="true" className="text-[#4A3F45]">·</span>
                       <span className="text-[#4A3F45] font-medium">{pillar.timing}</span>
@@ -745,7 +766,7 @@ export default function App() {
                     </div>
 
                     {/* Step Action(s) */}
-                    <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto">
                       {pillar.ctaType === 'boutique' ? (
                         <button
                           type="button"
@@ -768,7 +789,7 @@ export default function App() {
                               setDiagnosticResult(null);
                               setIsDiagnosticOpen(true);
                             }}
-                            className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                            className="group w-full sm:w-auto justify-center px-5 sm:px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                           >
                             <span>{pillar.ctaLabel}</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -776,7 +797,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={() => setIsBookingOpen(true)}
-                            className="px-6 py-3.5 rounded-full border border-[#171318]/30 hover:border-[#A82F55] hover:bg-[#FFFFFF]/40 text-[#171318] hover:text-[#A82F55] transition-colors text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0"
+                            className="w-full sm:w-auto justify-center px-6 py-3.5 rounded-full border border-[#171318]/30 hover:border-[#A82F55] hover:bg-[#FFFFFF]/40 text-[#171318] hover:text-[#A82F55] transition-colors text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0 text-center"
                           >
                             Prendre rendez-vous
                           </button>
@@ -803,6 +824,18 @@ export default function App() {
             })}
           </div>
         </section>
+
+        {/* ========================================================
+            SECTION À PROPOS (HISTOIRE & PHILOSOPHIE GLORIA AMINOU)
+            ======================================================== */}
+        <AproposSection
+          onOpenBooking={() => setIsBookingOpen(true)}
+          onOpenDiagnostic={() => {
+            setQuizStep(1);
+            setDiagnosticResult(null);
+            setIsDiagnosticOpen(true);
+          }}
+        />
 
         {/* ========================================================
             SECTION BOUTIQUE (NOS PRODUITS NATURELS & PANIER)
@@ -945,7 +978,7 @@ export default function App() {
                     <div className="text-xs text-[#6F6268] mt-0.5">{item.desc}</div>
                   </div>
                 ))}
-                <div className="pt-4 flex justify-between">
+                <div className="pt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
                     onClick={() => setQuizStep(1)}
                     className="px-5 py-2.5 rounded-full border border-[#6F6268] text-xs font-semibold text-[#6F6268] hover:text-[#171318] cursor-pointer"
@@ -983,7 +1016,7 @@ export default function App() {
                     <div className="text-xs text-[#6F6268] mt-0.5">{item.desc}</div>
                   </div>
                 ))}
-                <div className="pt-4 flex justify-between">
+                <div className="pt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
                     onClick={() => setQuizStep(2)}
                     className="px-5 py-2.5 rounded-full border border-[#6F6268] text-xs font-semibold text-[#6F6268] hover:text-[#171318] cursor-pointer"
@@ -992,7 +1025,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={handleCalculateDiagnostic}
-                    className="px-6 py-3 rounded-full bg-[#D45578] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#A82F55] transition-colors cursor-pointer"
+                    className="px-5 sm:px-6 py-3 rounded-full bg-[#D45578] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#A82F55] transition-colors cursor-pointer"
                   >
                     Voir mon bilan personnalisé
                   </button>
@@ -1086,7 +1119,7 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ duration: 0.25, ease: EASE_LUXURY }}
-            className="relative max-w-lg w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl"
+            className="relative max-w-lg w-full bg-[#FFFFFF] border border-[#F2CFD9] p-5 sm:p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90dvh]"
           >
             <button 
               onClick={() => setIsBookingOpen(false)}
@@ -1259,6 +1292,7 @@ export default function App() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
+          onClick={() => setIsMenuOpen(false)}
           className="fixed inset-0 z-50 flex justify-start bg-[#171318]/60 backdrop-blur-sm"
         >
           <motion.div
@@ -1266,21 +1300,23 @@ export default function App() {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 360, damping: 34 }}
-            className="relative w-full max-w-sm h-full bg-[#FFFFFF] border-r border-[#F2CFD9] p-8 flex flex-col justify-between shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-[88vw] max-w-sm h-full bg-[#FFFFFF] border-r border-[#F2CFD9] p-6 sm:p-8 flex flex-col justify-between gap-8 shadow-2xl overflow-y-auto"
           >
             <div>
-              <div className="flex items-center justify-between mb-10">
+              <div className="flex items-center justify-between mb-8">
                 <span className="font-serif-luxury text-2xl font-semibold text-[#171318]">Gloria Aminou</span>
                 <button 
+                  type="button"
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-1.5 text-[#6F6268] hover:text-[#171318] cursor-pointer"
+                  className="p-2 text-[#6F6268] hover:text-[#171318] rounded-full hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
                   aria-label="Fermer le menu"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-6">
+              <nav aria-label="Menu mobile" className="flex flex-col gap-4 sm:gap-5">
                 {[
                   { 
                     name: "Accueil", 
@@ -1306,10 +1342,10 @@ export default function App() {
                     } 
                   },
                   { 
-                    name: "Questions fréquentes", 
+                    name: "À propos de Gloria", 
                     action: () => { 
                       setIsMenuOpen(false); 
-                      const el = document.getElementById('faq');
+                      const el = document.getElementById('apropos');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   },
@@ -1321,21 +1357,51 @@ export default function App() {
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   },
-                  { name: "Diagnostic de peau gratuit", action: () => { setIsMenuOpen(false); setIsDiagnosticOpen(true); } },
-                  { name: "Prendre rendez-vous", action: () => { setIsMenuOpen(false); setIsBookingOpen(true); } }
+                  { 
+                    name: "Questions fréquentes", 
+                    action: () => { 
+                      setIsMenuOpen(false); 
+                      const el = document.getElementById('faq');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    } 
+                  }
                 ].map((navItem, index) => (
                   <button
                     key={index}
+                    type="button"
                     onClick={navItem.action}
-                    className="text-left font-serif-luxury text-xl text-[#171318] hover:text-[#D45578] transition-colors tracking-wide cursor-pointer"
+                    className="text-left font-serif-luxury text-xl py-1 text-[#171318] hover:text-[#D45578] transition-colors tracking-wide cursor-pointer"
                   >
                     {navItem.name}
                   </button>
                 ))}
               </nav>
+
+              <div className="mt-8 pt-6 border-t border-[#F2CFD9] flex flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsDiagnosticOpen(true);
+                  }}
+                  className="w-full py-3 px-5 rounded-full border border-[#D45578]/40 text-[#A82F55] hover:bg-[#FCE4EC]/50 text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors"
+                >
+                  Diagnostic de peau gratuit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsBookingOpen(true);
+                  }}
+                  className="w-full py-3.5 px-5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors shadow-xs"
+                >
+                  Prendre rendez-vous
+                </button>
+              </div>
             </div>
 
-            <div className="border-t border-[#F2CFD9] pt-6 text-xs text-[#6F6268] leading-relaxed">
+            <div className="border-t border-[#F2CFD9] pt-5 text-xs text-[#6F6268] leading-relaxed">
               <p className="font-semibold text-[#171318]">Gloria Aminou</p>
               <p className="mt-0.5">Beauty Coach & Créatrice de contenus</p>
               <p className="mt-2 text-[#A82F55] font-medium">Cosmétique naturelle · Cotonou, Bénin</p>
