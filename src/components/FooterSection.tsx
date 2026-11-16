@@ -133,9 +133,20 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
       </div>
 
       {/* Bottom Legal / Brand Line */}
-      <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#4A3F45]">
+      <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-[#4A3F45]">
         <span>© {new Date().getFullYear()} Gloria Aminou · Tous droits réservés.</span>
         <span>Soins naturels · Sans hydroquinone, sans corticoïdes, sans artifices.</span>
+        <span>
+          Site développé par{' '}
+          <a
+            href="https://www.facebook.com/p/Mevi-Vignon-61595932273130/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-[#A82F55] hover:text-[#171318] underline underline-offset-4 transition-colors"
+          >
+            MEVI Cyprien
+          </a>
+        </span>
       </div>
     </motion.footer>
   );
