@@ -13,11 +13,12 @@ import {
   Sun, 
   Droplets, 
   Send,
-  MessageCircle,
-  Instagram,
   Sparkles
 } from 'lucide-react';
 import { FaqSection } from './components/FaqSection';
+import { BoutiqueSection } from './components/BoutiqueSection';
+import { CtaSection } from './components/CtaSection';
+import { FooterSection } from './components/FooterSection';
 
 // Visual Assets (Optimized WebP)
 const PORTRAIT_CUTOUT = "/assets/webp/gloria-portrait.webp";
@@ -99,30 +100,6 @@ const SKIN_PROBLEMS: Array<{
   }
 ];
 
-const BOUTIQUE_ESSENTIALS = [
-  {
-    id: 'karite-brut',
-    name: 'Beurre de Karité Brut Non Raffiné',
-    origin: 'Nord Bénin · Pression artisanale',
-    benefit: 'Répare les peaux brûlées et restaure le film hydrolipidique sans obstruer les pores.',
-    price: '8 500 FCFA'
-  },
-  {
-    id: 'huile-baobab',
-    name: 'Huile Vierge de Baobab Pressée à Froid',
-    origin: 'Afrique de l’Ouest · 100% pure',
-    benefit: 'Nourrit en profondeur, assouplit les peaux cartonnées et redonne de l’éclat naturel.',
-    price: '12 000 FCFA'
-  },
-  {
-    id: 'eau-hibiscus',
-    name: 'Eau Florale d’Hibiscus Apaisante',
-    origin: 'Cotonou · Distillation douce',
-    benefit: 'Rééquilibre le pH après le nettoyage, calme les rougeurs et prépare à l’hydratation.',
-    price: '6 500 FCFA'
-  }
-] as const;
-
 const SOLUTION_PILLARS = [
   {
     id: 'reparer',
@@ -184,7 +161,6 @@ export default function App() {
   // Navigation & Modals
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [isBoutiqueOpen, setIsBoutiqueOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -318,7 +294,10 @@ export default function App() {
             </button>
             <button
               type="button"
-              onClick={() => setIsBoutiqueOpen(true)}
+              onClick={() => {
+                const el = document.getElementById('boutique');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               Boutique
@@ -703,7 +682,10 @@ export default function App() {
                       {pillar.ctaType === 'boutique' ? (
                         <button
                           type="button"
-                          onClick={() => setIsBoutiqueOpen(true)}
+                          onClick={() => {
+                            const el = document.getElementById('boutique');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                          }}
                           className="group text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap shrink-0"
                         >
                           <span>{pillar.ctaLabel}</span>
@@ -756,6 +738,21 @@ export default function App() {
         </section>
 
         {/* ========================================================
+            SECTION BOUTIQUE (NOS PRODUITS NATURELS & PANIER)
+            ======================================================== */}
+        <BoutiqueSection
+          onCheckoutOrder={(orderSummary) => {
+            setBookingNotes(orderSummary);
+            setIsBookingOpen(true);
+          }}
+          onOpenDiagnostic={() => {
+            setQuizStep(1);
+            setDiagnosticResult(null);
+            setIsDiagnosticOpen(true);
+          }}
+        />
+
+        {/* ========================================================
             SECTION FAQ (QUESTIONS FRÉQUENTES SUR LES SOINS NATURELS)
             ======================================================== */}
         <FaqSection
@@ -765,6 +762,27 @@ export default function App() {
             setIsDiagnosticOpen(true);
           }}
           onOpenBooking={() => setIsBookingOpen(true)}
+        />
+
+        {/* ========================================================
+            SECTION CTA FINALE & FOOTER ÉDITORIAL
+            ======================================================== */}
+        <CtaSection
+          onOpenBooking={() => setIsBookingOpen(true)}
+          onOpenDiagnostic={() => {
+            setQuizStep(1);
+            setDiagnosticResult(null);
+            setIsDiagnosticOpen(true);
+          }}
+        />
+
+        <FooterSection
+          onOpenBooking={() => setIsBookingOpen(true)}
+          onOpenDiagnostic={() => {
+            setQuizStep(1);
+            setDiagnosticResult(null);
+            setIsDiagnosticOpen(true);
+          }}
         />
 
       </div>
@@ -1177,7 +1195,8 @@ export default function App() {
                     name: "Boutique", 
                     action: () => { 
                       setIsMenuOpen(false); 
-                      setIsBoutiqueOpen(true);
+                      const el = document.getElementById('boutique');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
                     } 
                   },
                   { name: "Diagnostic de peau gratuit", action: () => { setIsMenuOpen(false); setIsDiagnosticOpen(true); } },
@@ -1198,73 +1217,6 @@ export default function App() {
               <p className="font-semibold text-[#171318]">Gloria Aminou</p>
               <p className="mt-0.5">Beauty Coach & Créatrice de contenus</p>
               <p className="mt-2 text-[#A82F55] font-medium">Cosmétique naturelle · Cotonou, Bénin</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================
-          MODAL 4 : BOUTIQUE NATURELLE
-          ======================================================== */}
-      {isBoutiqueOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm">
-          <div className="relative max-w-2xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]">
-            <button 
-              type="button"
-              onClick={() => setIsBoutiqueOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
-              aria-label="Fermer la boutique"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="text-xs uppercase tracking-[0.2em] text-[#D45578] font-semibold mb-1">
-              Boutique · Essentiels Naturels
-            </div>
-            <h3 className="font-serif-luxury text-2xl md:text-3xl text-[#171318] mb-2 font-medium">
-              Actifs purs sélectionnés par Gloria
-            </h3>
-            <p className="text-xs sm:text-sm text-[#6F6268] mb-6">
-              Des matières brutes non dénaturées, sans hydroquinone ni corticoïdes, adaptées à la réparation de la barrière cutanée.
-            </p>
-
-            <div className="rounded-2xl overflow-hidden aspect-[16/9] mb-6 bg-[#F2CFD9]/20">
-              <img
-                src="/assets/webp/solution-reparer.webp"
-                alt="Karité brut et huile botanique naturelle sélectionnés par Gloria Aminou"
-                width={900}
-                height={672}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="divide-y divide-[#F2CFD9]">
-              {BOUTIQUE_ESSENTIALS.map((item) => (
-                <div key={item.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs text-[#A82F55] font-medium">{item.origin}</div>
-                    <div className="font-serif-luxury text-xl font-medium text-[#171318]">{item.name}</div>
-                    <p className="text-xs text-[#6F6268] mt-1 max-w-md">{item.benefit}</p>
-                  </div>
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-                    <span className="text-sm font-bold text-[#171318] tabular-nums">{item.price}</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setBookingNotes(`Je souhaite commander / obtenir un conseil sur : ${item.name} (${item.price}).`);
-                        setIsBoutiqueOpen(false);
-                        setIsBookingOpen(true);
-                      }}
-                      className="px-4 py-2 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors"
-                    >
-                      Commander
-                    </button>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
