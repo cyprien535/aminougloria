@@ -1,10 +1,13 @@
 import React from 'react';
 import { Instagram, MessageCircle } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface FooterSectionProps {
   onOpenBooking: () => void;
   onOpenDiagnostic: () => void;
 }
+
+const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSectionProps) {
   const scrollToSection = (id: string) => {
@@ -19,7 +22,13 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
   };
 
   return (
-    <footer className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] pt-12 sm:pt-16 pb-8 sm:pb-10 px-2 sm:px-4 md:px-6 border-t border-[#A82F55]/25 mt-6">
+    <motion.footer
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, ease: EASE_LUXURY }}
+      className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] pt-12 sm:pt-16 pb-8 sm:pb-10 px-2 sm:px-4 md:px-6 border-t border-[#A82F55]/25 mt-6"
+    >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-[#A82F55]/20">
         {/* Brand & Positioning */}
         <div className="md:col-span-5">
@@ -127,6 +136,6 @@ export function FooterSection({ onOpenBooking, onOpenDiagnostic }: FooterSection
         <span>© {new Date().getFullYear()} Gloria Aminou · Tous droits réservés.</span>
         <span>Soins naturels · Sans hydroquinone, sans corticoïdes, sans artifices.</span>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

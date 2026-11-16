@@ -15,6 +15,7 @@ import {
   Send,
   Sparkles
 } from 'lucide-react';
+import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { FaqSection } from './components/FaqSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { CtaSection } from './components/CtaSection';
@@ -22,6 +23,7 @@ import { FooterSection } from './components/FooterSection';
 
 // Visual Assets (Optimized WebP)
 const PORTRAIT_CUTOUT = "/assets/webp/gloria-portrait.webp";
+const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface DiagnosticResult {
   skinType: string;
@@ -250,6 +252,7 @@ export default function App() {
   };
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen bg-[#F2CFD9] text-[#171318] font-sans-clean selection:bg-[#D45578] selection:text-[#FFFFFF] flex flex-col justify-between p-3 sm:p-5 md:p-6 relative overflow-x-hidden">
       {/* Subtle Luxury Grain Overlay */}
       <div className="beauty-grain" aria-hidden="true" />
@@ -260,7 +263,12 @@ export default function App() {
         {/* ========================================================
             NAVIGATION (3D Brand + Accueil / Services / Boutique + Button)
             ======================================================== */}
-        <header className="w-[99%] sm:w-[98%] md:w-[97%] lg:w-[96%] max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-5 sm:px-8 md:px-10 py-2.5 sm:py-3 flex items-center justify-between gap-4 sm:gap-8 text-[#171318] shadow-sm shrink-0 transition-all">
+        <motion.header
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: EASE_LUXURY }}
+          className="w-[99%] sm:w-[98%] md:w-[97%] lg:w-[96%] max-w-[1480px] rounded-full bg-[#FFFFFF]/95 backdrop-blur-md border border-[#FFFFFF] px-5 sm:px-8 md:px-10 py-2.5 sm:py-3 flex items-center justify-between gap-4 sm:gap-8 text-[#171318] shadow-sm shrink-0 transition-all"
+        >
           {/* Zone 1: 3D Brand Name */}
           <a
             href="#accueil"
@@ -322,12 +330,18 @@ export default function App() {
               <MenuIcon className="w-5 h-5" />
             </button>
           </div>
-        </header>
+        </motion.header>
 
         {/* ========================================================
             HERO SECTION (Large Framed Rounded Card - Foreground z-30)
             ======================================================== */}
-        <section id="accueil" className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between">
+        <motion.section
+          id="accueil"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.48, ease: EASE_LUXURY }}
+          className="relative z-30 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg min-h-[72vh] md:min-h-[80vh] flex flex-col md:flex-row items-center justify-between"
+        >
           {/* Left-to-Right Gradient Backdrop behind the text content */}
           <div 
             className="absolute inset-y-0 left-0 w-full md:w-3/4 lg:w-3/5 bg-gradient-to-r from-[#FFFFFF]/95 via-[#FDF0F5]/80 to-transparent pointer-events-none z-0" 
@@ -338,51 +352,81 @@ export default function App() {
           <div className="relative z-10 w-full md:w-[54%] lg:w-[52%] px-6 sm:px-10 md:pl-12 md:pr-4 lg:pl-16 lg:pr-6 pt-10 pb-6 sm:py-12 md:py-16 flex flex-col items-start justify-center">
             
             {/* Wireframe Bar 1: Eyebrow capsule */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-xs font-semibold tracking-wider uppercase shadow-xs mb-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.06, ease: EASE_LUXURY }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-xs font-semibold tracking-wider uppercase shadow-xs mb-4"
+            >
               <span className="w-2 h-2 rounded-full bg-[#D45578] animate-pulse" />
               Gloria Aminou · La Régénératrice
-            </div>
+            </motion.div>
 
             {/* Wireframe Bar 2: Main Headline from copywrite.txt */}
-            <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-[58px] text-[#171318] leading-[1.08] font-medium tracking-tight mb-4">
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.46, delay: 0.12, ease: EASE_LUXURY }}
+              className="font-serif-luxury text-3xl sm:text-5xl lg:text-[58px] text-[#171318] leading-[1.08] font-medium tracking-tight mb-4"
+            >
               Peau brûlée, éclaircie ou abîmée ? <br />
               <span className="text-[#D45578] italic">Retrouve ton vrai teint.</span>
-            </h1>
+            </motion.h1>
 
             {/* Wireframe Bar 3: Subtitle / Description */}
-            <p className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.42, delay: 0.18, ease: EASE_LUXURY }}
+              className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal"
+            >
               Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus ?
-            </p>
+            </motion.p>
 
             {/* Wireframe Bar 4: Action Button with Glowing Effect */}
-            <div className="flex items-center">
-              <button 
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.24, ease: EASE_LUXURY }}
+              className="flex items-center"
+            >
+              <motion.button
+                whileHover={{ y: -2, scale: 1.01 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => {
                   setQuizStep(1);
                   setDiagnosticResult(null);
                   setIsDiagnosticOpen(true);
                 }}
-                className="group relative flex items-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-all duration-300 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50 animate-rose-glow hover:-translate-y-0.5"
+                className="group relative flex items-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50 animate-rose-glow"
               >
                 <span>Je corrige ma peau</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Method Tag with Smooth Scroll */}
-            <a 
+            <motion.a
               href="#solution"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.3, ease: EASE_LUXURY }}
               className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex items-center gap-2 transition-colors cursor-pointer group"
             >
               <span className="text-[#D45578] font-bold">Approche :</span>
               <span className="font-medium text-[#171318] group-hover:text-[#D45578] transition-colors">Réparer · Équilibrer · Régénérer</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </motion.a>
 
           </div>
 
           {/* Foreground Portrait Cutout on the right (Infinitely responsive across any card shape/size) */}
-          <div className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12">
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.55, delay: 0.14, ease: EASE_LUXURY }}
+            className="relative md:absolute right-0 bottom-0 z-20 w-full md:w-auto h-[44vh] sm:h-[50vh] md:h-[92%] lg:h-[96%] flex items-end justify-center md:justify-end pointer-events-none px-4 md:px-0 md:pr-6 lg:pr-12"
+          >
             <img 
               src={PORTRAIT_CUTOUT} 
               alt="Gloria Aminou - Beauty coach béninoise"
@@ -391,10 +435,10 @@ export default function App() {
               loading="eager"
               decoding="sync"
               fetchPriority="high"
-              className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(23,19,24,0.22)] select-none transition-all duration-300"
+              className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(23,19,24,0.22)] select-none"
             />
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* ========================================================
             SECTION PROBLÈME (GALERIE ÉDITORIALE EN 3 COLONNES SUR ARRIÈRE-PLAN)
@@ -410,7 +454,13 @@ export default function App() {
               className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-22 px-2 sm:px-4 md:px-6"
             >
               {/* Top Editorial Split Header */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end pb-10 sm:pb-12 border-b border-[#A82F55]/25">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.45, ease: EASE_LUXURY }}
+                className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end pb-10 sm:pb-12 border-b border-[#A82F55]/25"
+              >
                 <div className="lg:col-span-7">
                   <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
                     <span>Le constat</span>
@@ -427,32 +477,40 @@ export default function App() {
                   <p className="text-sm sm:text-base text-[#3D3238] leading-relaxed">
                     Si tu es ici, ce n’est pas un hasard. Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus. Je n’embellis pas la réalité : je la corrige.
                   </p>
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => {
                       setConcern(activeProblem.concernKey);
                       setQuizStep(1);
                       setDiagnosticResult(null);
                       setIsDiagnosticOpen(true);
                     }}
-                    className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                    className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                   >
                     <span>Identifier mon problème</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* 3-Column Visual Problem Showcase */}
               <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-10">
-                {SKIN_PROBLEMS.map((problem) => {
+                {SKIN_PROBLEMS.map((problem, index) => {
                   const isSelected = selectedProblem === problem.id;
                   const isDiptych = problem.images.length > 1;
 
                   return (
-                    <button
+                    <motion.button
                       key={problem.id}
                       type="button"
+                      initial={{ opacity: 0, y: 22 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.15 }}
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.99 }}
+                      transition={{ duration: 0.42, delay: index * 0.08, ease: EASE_LUXURY }}
                       onClick={() => setSelectedProblem(problem.id)}
                       aria-pressed={isSelected}
                       className="text-left group cursor-pointer flex flex-col items-start focus:outline-none"
@@ -493,7 +551,7 @@ export default function App() {
                                 onError={() =>
                                   setFailedImages((prev) => ({ ...prev, [img.src]: true }))
                                 }
-                                className={`w-full h-full min-h-0 object-cover ${img.objectPosition ?? 'object-center'} group-hover:scale-[1.03] transition-transform duration-500`}
+                                className={`w-full h-full min-h-0 object-cover ${img.objectPosition ?? 'object-center'} group-hover:scale-[1.04] transition-transform duration-500`}
                               />
                             );
                           })}
@@ -522,46 +580,57 @@ export default function App() {
                           {problem.symptom}
                         </p>
                       </div>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
 
               {/* Focused Interactive Cause & First Reflex Strip */}
-              <div className="mt-10 sm:mt-12 pt-8 border-t border-[#A82F55]/25 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
-                <div className="lg:col-span-4">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#A82F55] mb-1.5">
-                    {activeProblem.num} Ce qui abîme ta peau
-                  </div>
-                  <p className="text-xs sm:text-sm text-[#171318] leading-relaxed font-medium">
-                    {activeProblem.cause}
-                  </p>
-                </div>
-
-                <div className="lg:col-span-5">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#171318] mb-1.5">
-                    Premier réflexe Gloria
-                  </div>
-                  <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
-                    {activeProblem.reflex}
-                  </p>
-                </div>
-
-                <div className="lg:col-span-3 flex lg:justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setConcern(activeProblem.concernKey);
-                      setQuizStep(1);
-                      setDiagnosticResult(null);
-                      setIsDiagnosticOpen(true);
-                    }}
-                    className="group text-xs sm:text-sm font-bold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap shrink-0"
+              <div className="mt-10 sm:mt-12 pt-8 border-t border-[#A82F55]/25">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeProblem.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.22, ease: EASE_LUXURY }}
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center"
                   >
-                    <span>Corriger ce problème</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
+                    <div className="lg:col-span-4">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-[#A82F55] mb-1.5">
+                        {activeProblem.num} Ce qui abîme ta peau
+                      </div>
+                      <p className="text-xs sm:text-sm text-[#171318] leading-relaxed font-medium">
+                        {activeProblem.cause}
+                      </p>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-[#171318] mb-1.5">
+                        Premier réflexe Gloria
+                      </div>
+                      <p className="text-xs sm:text-sm text-[#3D3238] leading-relaxed">
+                        {activeProblem.reflex}
+                      </p>
+                    </div>
+
+                    <div className="lg:col-span-3 flex lg:justify-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setConcern(activeProblem.concernKey);
+                          setQuizStep(1);
+                          setDiagnosticResult(null);
+                          setIsDiagnosticOpen(true);
+                        }}
+                        className="group text-xs sm:text-sm font-bold uppercase tracking-wider text-[#A82F55] hover:text-[#171318] flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap shrink-0"
+                      >
+                        <span>Corriger ce problème</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </section>
           );
@@ -575,7 +644,13 @@ export default function App() {
           className="relative z-0 w-[96%] sm:w-[95%] md:w-[94%] lg:w-[93%] max-w-[1390px] py-14 sm:py-18 md:py-24 px-2 sm:px-4 md:px-6"
         >
           {/* Centered Top Header (Matching Wireframe) */}
-          <div className="max-w-3xl mx-auto text-center pb-12 sm:pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.45, ease: EASE_LUXURY }}
+            className="max-w-3xl mx-auto text-center pb-12 sm:pb-16"
+          >
             <div className="text-xs font-semibold tracking-[0.2em] uppercase text-[#A82F55] mb-3">
               La Solution · Approche naturelle
             </div>
@@ -586,7 +661,7 @@ export default function App() {
             <p className="mt-4 text-sm sm:text-base text-[#3D3238] leading-relaxed max-w-2xl mx-auto">
               Je n’embellis pas la réalité. Je la corrige. Sans artifices, sans mensonges et sans dépendance aux produits chimiques, voici comment ta peau retrouve un teint propre, stable et sain.
             </p>
-          </div>
+          </motion.div>
 
           {/* 3 Alternating Zig-Zag Steps */}
           <div className="space-y-14 sm:space-y-20 md:space-y-24">
@@ -601,7 +676,11 @@ export default function App() {
                   className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center"
                 >
                   {/* Step Image Block (Left on Steps 1 & 3, Right on Step 2) */}
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, x: isImageRight ? 24 : -24 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.5, ease: EASE_LUXURY }}
                     className={`${
                       isStepThree ? 'lg:col-span-6' : 'lg:col-span-5'
                     } ${isImageRight ? 'lg:order-2' : 'lg:order-1'}`}
@@ -634,10 +713,14 @@ export default function App() {
                         />
                       )}
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Step Editorial Text Block (Right on Steps 1 & 3, Left on Step 2) */}
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, x: isImageRight ? -24 : 24 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: 0.06, ease: EASE_LUXURY }}
                     className={`${
                       isStepThree ? 'lg:col-span-6' : 'lg:col-span-7'
                     } ${isImageRight ? 'lg:order-1' : 'lg:order-2'} flex flex-col items-start`}
@@ -730,7 +813,7 @@ export default function App() {
                         </button>
                       )}
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               );
             })}
@@ -790,9 +873,22 @@ export default function App() {
       {/* ========================================================
           MODAL 1 : DIAGNOSTIC DE PEAU INTERACTIF
           ======================================================== */}
+      <AnimatePresence>
       {isDiagnosticOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm">
-          <div className="relative max-w-xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+            transition={{ duration: 0.25, ease: EASE_LUXURY }}
+            className="relative max-w-xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]"
+          >
             <button 
               onClick={() => setIsDiagnosticOpen(false)}
               className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
@@ -984,16 +1080,30 @@ export default function App() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* ========================================================
           MODAL 2 : PRISE DE RENDEZ-VOUS & COACHING
           ======================================================== */}
+      <AnimatePresence>
       {isBookingOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm">
-          <div className="relative max-w-lg w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#171318]/70 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+            transition={{ duration: 0.25, ease: EASE_LUXURY }}
+            className="relative max-w-lg w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl"
+          >
             <button 
               onClick={() => setIsBookingOpen(false)}
               className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
@@ -1089,16 +1199,30 @@ export default function App() {
                 </button>
               </form>
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* ========================================================
           MODAL 3 : SEARCH
           ======================================================== */}
+      <AnimatePresence>
       {isSearchOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-[#171318]/60 backdrop-blur-sm">
-          <div className="relative max-w-xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 shadow-2xl rounded-2xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-[#171318]/60 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.22, ease: EASE_LUXURY }}
+            className="relative max-w-xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 shadow-2xl rounded-2xl"
+          >
             <div className="flex items-center justify-between mb-4 border-b border-[#F2CFD9] pb-3">
               <div className="flex items-center gap-2.5 w-full">
                 <Search className="w-4 h-4 text-[#D45578]" />
@@ -1136,16 +1260,30 @@ export default function App() {
                 </button>
               ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* ========================================================
           NAVIGATION DRAWER MENU
           ======================================================== */}
+      <AnimatePresence>
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 flex justify-start bg-[#171318]/60 backdrop-blur-sm transition-all duration-300">
-          <div className="relative w-full max-w-sm h-full bg-[#FFFFFF] border-r border-[#F2CFD9] p-8 flex flex-col justify-between shadow-2xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.22 }}
+          className="fixed inset-0 z-50 flex justify-start bg-[#171318]/60 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', stiffness: 360, damping: 34 }}
+            className="relative w-full max-w-sm h-full bg-[#FFFFFF] border-r border-[#F2CFD9] p-8 flex flex-col justify-between shadow-2xl"
+          >
             <div>
               <div className="flex items-center justify-between mb-10">
                 <span className="font-serif-luxury text-2xl font-semibold text-[#171318]">Gloria Aminou</span>
@@ -1218,10 +1356,12 @@ export default function App() {
               <p className="mt-0.5">Beauty Coach & Créatrice de contenus</p>
               <p className="mt-2 text-[#A82F55] font-medium">Cosmétique naturelle · Cotonou, Bénin</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
     </div>
+    </MotionConfig>
   );
 }

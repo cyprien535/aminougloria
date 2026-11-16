@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 
 export interface FaqItem {
   id: string;
@@ -46,6 +47,8 @@ const NATURAL_SKINCARE_FAQS: FaqItem[] = [
   }
 ];
 
+const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 interface FaqAccordionItemProps {
   item: FaqItem;
   index: number;
@@ -85,26 +88,36 @@ export function FaqAccordionItem({ item, index, isOpen, onToggle }: FaqAccordion
           </span>
         </div>
 
-        <ChevronDown
-          className={`w-5 h-5 text-[#A82F55] shrink-0 mt-1 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : 'rotate-0'
-          }`}
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.25, ease: EASE_LUXURY }}
+          className="shrink-0 mt-1 text-[#A82F55]"
           aria-hidden="true"
-        />
+        >
+          <ChevronDown className="w-5 h-5" />
+        </motion.span>
       </button>
 
-      {isOpen && (
-        <div
-          id={panelId}
-          role="region"
-          aria-labelledby={buttonId}
-          className="pb-6 pl-8 sm:pl-10 pr-4 sm:pr-8"
-        >
-          <p className="text-sm sm:text-base text-[#3D3238] leading-relaxed">
-            {item.answer}
-          </p>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            id={panelId}
+            role="region"
+            aria-labelledby={buttonId}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.26, ease: EASE_LUXURY }}
+            className="overflow-hidden"
+          >
+            <div className="pb-6 pl-8 sm:pl-10 pr-4 sm:pr-8">
+              <p className="text-sm sm:text-base text-[#3D3238] leading-relaxed">
+                {item.answer}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -128,7 +141,13 @@ export function FaqSection({ onOpenDiagnostic, onOpenBooking }: FaqSectionProps)
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         {/* Left Column: Editorial Intro & Direct Actions */}
-        <div className="lg:col-span-5 flex flex-col items-start">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.45, ease: EASE_LUXURY }}
+          className="lg:col-span-5 flex flex-col items-start"
+        >
           <div className="text-xs font-semibold tracking-wider uppercase text-[#A82F55] mb-3 flex flex-wrap items-center gap-2">
             <span>Questions fréquentes</span>
             <span aria-hidden="true" className="text-[#4A3F45]">·</span>
@@ -145,14 +164,16 @@ export function FaqSection({ onOpenDiagnostic, onOpenBooking }: FaqSectionProps)
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <button
+            <motion.button
               type="button"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
               onClick={onOpenBooking}
-              className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+              className="group px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
             >
               <span>Poser ma question en visio</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </motion.button>
 
             <button
               type="button"
@@ -162,10 +183,16 @@ export function FaqSection({ onOpenDiagnostic, onOpenBooking }: FaqSectionProps)
               Diagnostic gratuit →
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Simple Accordion List */}
-        <div className="lg:col-span-7 border-t border-[#A82F55]/25">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.48, delay: 0.08, ease: EASE_LUXURY }}
+          className="lg:col-span-7 border-t border-[#A82F55]/25"
+        >
           {NATURAL_SKINCARE_FAQS.map((item, index) => (
             <FaqAccordionItem
               key={item.id}
@@ -175,7 +202,7 @@ export function FaqSection({ onOpenDiagnostic, onOpenBooking }: FaqSectionProps)
               onToggle={() => handleToggle(item.id)}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
