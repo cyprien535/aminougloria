@@ -17,9 +17,10 @@ import {
   Instagram,
   Sparkles
 } from 'lucide-react';
+import { FaqSection } from './components/FaqSection';
 
-// Visual Assets
-const PORTRAIT_CUTOUT = "/assets/img/Portrait découpé d’une femme assise en tailleur.png";
+// Visual Assets (Optimized WebP)
+const PORTRAIT_CUTOUT = "/assets/webp/gloria-portrait.webp";
 
 interface DiagnosticResult {
   skinType: string;
@@ -33,7 +34,16 @@ interface DiagnosticResult {
   };
 }
 
-const SKIN_PROBLEMS = [
+const SKIN_PROBLEMS: Array<{
+  id: string;
+  num: string;
+  concernKey: string;
+  title: string;
+  symptom: string;
+  cause: string;
+  reflex: string;
+  images: Array<{ src: string; alt: string; objectPosition?: string }>;
+}> = [
   {
     id: 'teint-irregulier',
     num: '01.',
@@ -42,8 +52,18 @@ const SKIN_PROBLEMS = [
     symptom: 'Zones sombres persistantes, effet masque et perte d’uniformité malgré les crèmes.',
     cause: 'Les mélanges décapants et actifs agressifs provoquent une inflammation chronique qui dérègle la mélanine.',
     reflex: 'Apaiser l’inflammation cutanée et réinstaller une protection solaire quotidienne avant toute correction.',
-    image: '/src/assets/images/problem_uneven_skintone_1794663804656.jpg',
-    imageAlt: 'Peau noire présentant un teint irrégulier et des taches d’hyperpigmentation naturelles'
+    images: [
+      {
+        src: '/assets/webp/problem-teint-irregulier.webp',
+        alt: 'Peau noire présentant un teint irrégulier avec zones éclaircies et contrastes sur la joue',
+        objectPosition: 'object-center'
+      },
+      {
+        src: '/assets/webp/problem-tache-rebelle.webp',
+        alt: 'Portrait montrant des taches rebelles d’hyperpigmentation sur le front et les pommettes',
+        objectPosition: 'object-[50%_28%]'
+      }
+    ]
   },
   {
     id: 'peau-abimee',
@@ -53,8 +73,13 @@ const SKIN_PROBLEMS = [
     symptom: 'Échauffements, rougeurs, tiraillements vifs et peau qui marque au moindre frottement.',
     cause: 'L’hydroquinone, les corticoïdes et les savons trop abrasifs détruisent le film hydrolipidique protecteur.',
     reflex: 'Couper net l’agression chimique et colmater la barrière cutanée avec des lipides purs non raffinés.',
-    image: '/src/assets/images/problem_sensitized_skin_1794663804705.jpg',
-    imageAlt: 'Peau sensibilisée, rougie et fragilisée par l’altération de la barrière cutanée'
+    images: [
+      {
+        src: '/assets/webp/problem-peau-brulee.webp',
+        alt: 'Gros plan d’une peau brûlée, marquée et sensibilisée par l’altération de la barrière cutanée',
+        objectPosition: 'object-center'
+      }
+    ]
   },
   {
     id: 'perte-eclat',
@@ -64,10 +89,15 @@ const SKIN_PROBLEMS = [
     symptom: 'Teint terne ou grisé dès que tu arrêtes un produit, avec sensation de peau cartonnée.',
     cause: 'La surcharge de soins chimiques inadaptés au climat étouffe la respiration cellulaire naturelle.',
     reflex: 'Alléger la routine vers 3 gestes essentiels : nettoyer sans décaper, hydrater et nourrir simplement.',
-    image: '/src/assets/images/problem_dull_skin_fatigue_1794663805184.jpg',
-    imageAlt: 'Peau terne et fatiguée face à l’accumulation de produits cosmétiques inadaptés'
+    images: [
+      {
+        src: '/assets/webp/problem-perte-eclat.webp',
+        alt: 'Peau terne et fatiguée face à l’accumulation de produits cosmétiques inadaptés',
+        objectPosition: 'object-center'
+      }
+    ]
   }
-] as const;
+];
 
 const BOUTIQUE_ESSENTIALS = [
   {
@@ -109,7 +139,7 @@ const SOLUTION_PILLARS = [
     soir: 'Nettoyage à l’huile de baobab & beurre de karité brut pour cicatriser.',
     ctaLabel: 'Démarrer par la phase Réparer',
     ctaType: 'diagnostic' as const,
-    image: '/src/assets/images/botanical_ingredients_shea_1794391064166.jpg',
+    image: '/assets/webp/solution-reparer.webp',
     imageAlt: 'Beurre de karité brut non raffiné et huile botanique naturelle sur pierre travertine'
   },
   {
@@ -127,7 +157,7 @@ const SOLUTION_PILLARS = [
     soir: 'Brume d’hibiscus sur peau humide & 2 gouttes d’huile de baobab.',
     ctaLabel: 'Découvrir les actifs en boutique',
     ctaType: 'boutique' as const,
-    image: '/src/assets/images/solution_step2_balance_1794665884233.jpg',
+    image: '/assets/webp/solution-equilibrer.webp',
     imageAlt: 'Flacon d’huile de baobab pressée à froid, feuille d’aloe vera fraîche et fleurs d’hibiscus'
   },
   {
@@ -145,7 +175,7 @@ const SOLUTION_PILLARS = [
     soir: 'Soin doux aux fleurs d’hibiscus (2 soirs/sem.) & élixir de baobab.',
     ctaLabel: 'Faire mon diagnostic gratuit',
     ctaType: 'diagnostic' as const,
-    image: '/src/assets/images/radiant_melanin_skin_1794391065883.jpg',
+    image: '/assets/webp/solution-regenerer.webp',
     imageAlt: 'Peau noire naturelle, uniforme, saine et lumineuse sans artifices'
   }
 ] as const;
@@ -377,6 +407,11 @@ export default function App() {
             <img 
               src={PORTRAIT_CUTOUT} 
               alt="Gloria Aminou - Beauty coach béninoise"
+              width={799}
+              height={1000}
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
               className="w-auto h-full max-h-[50vh] sm:max-h-[58vh] md:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(23,19,24,0.22)] select-none transition-all duration-300"
             />
           </div>
@@ -433,7 +468,7 @@ export default function App() {
               <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-10">
                 {SKIN_PROBLEMS.map((problem) => {
                   const isSelected = selectedProblem === problem.id;
-                  const isProblemImageFailed = Boolean(failedImages[problem.image]);
+                  const isDiptych = problem.images.length > 1;
 
                   return (
                     <button
@@ -443,32 +478,47 @@ export default function App() {
                       aria-pressed={isSelected}
                       className="text-left group cursor-pointer flex flex-col items-start focus:outline-none"
                     >
-                      {/* Full-Width Column Image (4:3) */}
+                      {/* Full-Width Column Image (4:3, single or 2-up diptych) */}
                       <div
-                        className={`w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 transition-all duration-300 ${
+                        className={`relative w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-[#FFFFFF]/70 via-[#FCE4EC] to-[#D45578]/25 transition-all duration-300 ${
                           isSelected
                             ? 'ring-2 ring-[#A82F55] shadow-lg'
                             : 'shadow-sm opacity-90 group-hover:opacity-100 group-hover:shadow-md'
                         }`}
                       >
-                        {isProblemImageFailed ? (
-                          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center">
-                            <Sparkles className="w-8 h-8 text-[#A82F55] mb-2" />
-                            <span className="font-serif-luxury text-lg text-[#171318]">
-                              {problem.title}
-                            </span>
-                          </div>
-                        ) : (
-                          <img
-                            src={problem.image}
-                            alt={problem.imageAlt}
-                            referrerPolicy="no-referrer"
-                            onError={() =>
-                              setFailedImages((prev) => ({ ...prev, [problem.image]: true }))
-                            }
-                            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                          />
-                        )}
+                        <div
+                          className={`absolute inset-0 ${
+                            isDiptych ? 'grid grid-cols-2 gap-1' : 'w-full h-full'
+                          }`}
+                        >
+                          {problem.images.map((img) => {
+                            const isFailed = Boolean(failedImages[img.src]);
+                            return isFailed ? (
+                              <div
+                                key={img.src}
+                                className="w-full h-full min-h-0 flex flex-col items-center justify-center p-4 text-center bg-[#FCE4EC]/70"
+                              >
+                                <Sparkles className="w-7 h-7 text-[#A82F55] mb-1.5" />
+                                <span className="font-serif-luxury text-sm text-[#171318]">
+                                  {problem.title}
+                                </span>
+                              </div>
+                            ) : (
+                              <img
+                                key={img.src}
+                                src={img.src}
+                                alt={img.alt}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                onError={() =>
+                                  setFailedImages((prev) => ({ ...prev, [img.src]: true }))
+                                }
+                                className={`w-full h-full min-h-0 object-cover ${img.objectPosition ?? 'object-center'} group-hover:scale-[1.03] transition-transform duration-500`}
+                              />
+                            );
+                          })}
+                        </div>
                       </div>
 
                       {/* Editorial Number, Title & Symptom */}
@@ -593,6 +643,10 @@ export default function App() {
                         <img
                           src={pillar.image}
                           alt={pillar.imageAlt}
+                          width={900}
+                          height={672}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           onError={() =>
                             setFailedImages((prev) => ({ ...prev, [pillar.image]: true }))
@@ -700,6 +754,18 @@ export default function App() {
             })}
           </div>
         </section>
+
+        {/* ========================================================
+            SECTION FAQ (QUESTIONS FRÉQUENTES SUR LES SOINS NATURELS)
+            ======================================================== */}
+        <FaqSection
+          onOpenDiagnostic={() => {
+            setQuizStep(1);
+            setDiagnosticResult(null);
+            setIsDiagnosticOpen(true);
+          }}
+          onOpenBooking={() => setIsBookingOpen(true)}
+        />
 
       </div>
 
@@ -1100,6 +1166,14 @@ export default function App() {
                     } 
                   },
                   { 
+                    name: "Questions fréquentes", 
+                    action: () => { 
+                      setIsMenuOpen(false); 
+                      const el = document.getElementById('faq');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    } 
+                  },
+                  { 
                     name: "Boutique", 
                     action: () => { 
                       setIsMenuOpen(false); 
@@ -1156,8 +1230,12 @@ export default function App() {
 
             <div className="rounded-2xl overflow-hidden aspect-[16/9] mb-6 bg-[#F2CFD9]/20">
               <img
-                src="/src/assets/images/botanical_ingredients_shea_1794391064166.jpg"
+                src="/assets/webp/solution-reparer.webp"
                 alt="Karité brut et huile botanique naturelle sélectionnés par Gloria Aminou"
+                width={900}
+                height={672}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
               />
