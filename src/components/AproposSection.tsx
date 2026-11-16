@@ -54,7 +54,9 @@ export function AproposSection({ onOpenBooking, onOpenDiagnostic }: AproposSecti
                 </div>
               ) : (
                 <img
-                  src="/assets/webp/gloria-apropos.webp"
+                  src="/assets/webp/gloria-apropos-md.webp"
+                  srcSet="/assets/webp/gloria-apropos-sm.webp 480w, /assets/webp/gloria-apropos-md.webp 680w, /assets/webp/gloria-apropos.webp 1000w"
+                  sizes="(max-width: 1023px) 92vw, 38vw"
                   alt="Gloria Aminou, Beauty Coach et fondatrice béninoise en studio"
                   width={1000}
                   height={1250}
@@ -125,7 +127,7 @@ export function AproposSection({ onOpenBooking, onOpenDiagnostic }: AproposSecti
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={onOpenBooking}
-              className="group w-full sm:w-auto justify-center px-6 sm:px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+              className="group w-full sm:w-auto justify-center px-6 sm:px-7 py-3.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
             >
               <span>Échanger avec Gloria</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />

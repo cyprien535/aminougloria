@@ -126,50 +126,38 @@ export function Scroll3DReveal({
   className = '',
   direction = 'up'
 }: Scroll3DRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 92%', 'start 52%']
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 160,
-    damping: 24,
-    mass: 0.6
-  });
-
-  const opacity = useTransform(smoothProgress, [0, 0.55, 1], [0.25, 0.85, 1]);
-  const scale = useTransform(smoothProgress, [0, 1], [0.92, 1]);
-  const y = useTransform(smoothProgress, [0, 1], [36, 0]);
-  const rotateX = useTransform(
-    smoothProgress,
-    [0, 1],
-    [direction === 'up' ? 14 : 6, 0]
-  );
-  const rotateY = useTransform(
-    smoothProgress,
-    [0, 1],
-    [direction === 'left' ? -14 : direction === 'right' ? 14 : 0, 0]
-  );
 
   if (shouldReduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
+  const initialRotateX = direction === 'up' ? 12 : 5;
+  const initialRotateY = direction === 'left' ? -12 : direction === 'right' ? 12 : 0;
+
   return (
-    <div ref={ref} className={`[perspective:1200px] ${className}`}>
+    <div className={`[perspective:1200px] ${className}`}>
       <motion.div
+        initial={{
+          opacity: 0.2,
+          scale: 0.94,
+          y: 28,
+          rotateX: initialRotateX,
+          rotateY: initialRotateY
+        }}
+        whileInView={{
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          rotateX: 0,
+          rotateY: 0
+        }}
+        viewport={{ once: true, amount: 0.16 }}
         style={{
           transformPerspective: 1200,
-          opacity,
-          scale,
-          y,
-          rotateX,
-          rotateY,
           transformStyle: 'preserve-3d'
         }}
+        transition={{ duration: 0.62, ease: EASE_LUXURY }}
         className="w-full h-full will-change-transform"
       >
         {children}

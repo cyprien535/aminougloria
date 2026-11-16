@@ -16,6 +16,7 @@ export interface BoutiqueProduct {
   priceAmount: number;
   priceLabel: string;
   image: string;
+  imageSrcSet?: string;
   imageAlt: string;
 }
 
@@ -32,6 +33,7 @@ export const BOUTIQUE_PRODUCTS: BoutiqueProduct[] = [
     priceAmount: 8500,
     priceLabel: '8 500 FCFA',
     image: '/assets/webp/product-karite.webp',
+    imageSrcSet: '/assets/webp/product-karite-sm.webp 480w, /assets/webp/product-karite.webp 900w',
     imageAlt: 'Pot en verre ambré de beurre de karité brut non raffiné sur pierre travertine'
   },
   {
@@ -46,6 +48,7 @@ export const BOUTIQUE_PRODUCTS: BoutiqueProduct[] = [
     priceAmount: 12000,
     priceLabel: '12 000 FCFA',
     image: '/assets/webp/product-baobab.webp',
+    imageSrcSet: '/assets/webp/product-baobab-sm.webp 480w, /assets/webp/product-baobab.webp 900w',
     imageAlt: 'Flacon compte-gouttes en verre ambré d’huile vierge de baobab pressée à froid'
   },
   {
@@ -60,6 +63,7 @@ export const BOUTIQUE_PRODUCTS: BoutiqueProduct[] = [
     priceAmount: 6500,
     priceLabel: '6 500 FCFA',
     image: '/assets/webp/product-hibiscus.webp',
+    imageSrcSet: '/assets/webp/product-hibiscus-sm.webp 480w, /assets/webp/product-hibiscus.webp 900w',
     imageAlt: 'Vaporisateur givré d’eau florale d’hibiscus apaisante avec pétale frais sur travertine'
   }
 ];
@@ -277,6 +281,8 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
                       ) : (
                         <img
                           src={product.image}
+                          srcSet={product.imageSrcSet}
+                          sizes="(max-width: 767px) 92vw, (max-width: 1023px) 45vw, 30vw"
                           alt={product.imageAlt}
                           width={900}
                           height={672}
@@ -390,92 +396,92 @@ export function BoutiqueSection({ onCheckoutOrder, onOpenDiagnostic }: BoutiqueS
                     Panier ({totalItems})
                   </h3>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setIsCartOpen(false)}
-                  aria-label="Fermer le panier"
-                  className="p-2 rounded-full text-[#6F6268] hover:text-[#171318] hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto py-4 divide-y divide-[#F2CFD9]">
-                {cartEntries.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                    <ShoppingBag className="w-10 h-10 text-[#D45578] mb-3" />
-                    <p className="font-serif-luxury text-xl text-[#171318] font-medium">
-                      Votre panier est vide
-                    </p>
-                    <p className="mt-1 text-xs text-[#6F6268] max-w-xs leading-relaxed">
-                      Ajoutez un soin pur adapté à votre étape (Réparer, Équilibrer ou Régénérer) pour composer votre routine.
-                    </p>
-                  </div>
-                ) : (
-                  cartEntries.map(({ product, quantity }) => (
-                    <div key={product.id} className="py-4 flex items-center gap-4">
-                      <img
-                        src={product.image}
-                        alt={product.imageAlt}
-                        width={80}
-                        height={60}
-                        referrerPolicy="no-referrer"
-                        className="w-20 h-16 rounded-xl object-cover bg-[#FCE4EC] shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs text-[#A82F55] font-medium">{product.phaseLabel}</div>
-                        <div className="font-serif-luxury text-lg font-medium text-[#171318] truncate">
-                          {product.name}
-                        </div>
-                        <div className="text-xs font-semibold text-[#3D3238] tabular-nums mt-0.5">
-                          {formatFcfa(product.priceAmount * quantity)}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => handleUpdateQty(product.id, -1)}
-                          aria-label={`Retirer une unité de ${product.name}`}
-                          className="w-8 h-8 rounded-full border border-[#F2CFD9] hover:border-[#A82F55] flex items-center justify-center text-[#171318] cursor-pointer"
-                        >
-                          <Minus className="w-3.5 h-3.5" />
-                        </button>
-                        <span className="w-6 text-center text-xs font-bold tabular-nums text-[#171318]">
-                          {quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleUpdateQty(product.id, 1)}
-                          aria-label={`Ajouter une unité de ${product.name}`}
-                          className="w-8 h-8 rounded-full border border-[#F2CFD9] hover:border-[#A82F55] flex items-center justify-center text-[#171318] cursor-pointer"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {cartEntries.length > 0 && (
-                <div className="pt-4 border-t border-[#F2CFD9] space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#6F6268] font-medium">Sous-total estimé</span>
-                    <span className="text-lg font-bold text-[#171318] tabular-nums">
-                      {formatFcfa(totalAmount)}
-                    </span>
-                  </div>
-                  <motion.button
+                  <button
                     type="button"
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleProceedToOrder}
-                    className="w-full py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
+                    onClick={() => setIsCartOpen(false)}
+                    aria-label="Fermer le panier"
+                    className="p-2 rounded-full text-[#4A3F45] hover:text-[#171318] hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
                   >
-                    <span>Finaliser la commande</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </motion.button>
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              )}
+
+                <div className="flex-1 overflow-y-auto py-4 divide-y divide-[#F2CFD9]">
+                  {cartEntries.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                      <ShoppingBag className="w-10 h-10 text-[#A82F55] mb-3" />
+                      <p className="font-serif-luxury text-xl text-[#171318] font-medium">
+                        Votre panier est vide
+                      </p>
+                      <p className="mt-1 text-xs text-[#4A3F45] max-w-xs leading-relaxed">
+                        Ajoutez un soin pur adapté à votre étape (Réparer, Équilibrer ou Régénérer) pour composer votre routine.
+                      </p>
+                    </div>
+                  ) : (
+                    cartEntries.map(({ product, quantity }) => (
+                      <div key={product.id} className="py-4 flex items-center gap-4">
+                        <img
+                          src={product.image}
+                          alt={product.imageAlt}
+                          width={80}
+                          height={60}
+                          referrerPolicy="no-referrer"
+                          className="w-20 h-16 rounded-xl object-cover bg-[#FCE4EC] shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs text-[#A82F55] font-medium">{product.phaseLabel}</div>
+                          <div className="font-serif-luxury text-lg font-medium text-[#171318] truncate">
+                            {product.name}
+                          </div>
+                          <div className="text-xs font-semibold text-[#3D3238] tabular-nums mt-0.5">
+                            {formatFcfa(product.priceAmount * quantity)}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateQty(product.id, -1)}
+                            aria-label={`Retirer une unité de ${product.name}`}
+                            className="w-8 h-8 rounded-full border border-[#F2CFD9] hover:border-[#A82F55] flex items-center justify-center text-[#171318] cursor-pointer"
+                          >
+                            <Minus className="w-3.5 h-3.5" />
+                          </button>
+                          <span className="w-6 text-center text-xs font-bold tabular-nums text-[#171318]">
+                            {quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateQty(product.id, 1)}
+                            aria-label={`Ajouter une unité de ${product.name}`}
+                            className="w-8 h-8 rounded-full border border-[#F2CFD9] hover:border-[#A82F55] flex items-center justify-center text-[#171318] cursor-pointer"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                {cartEntries.length > 0 && (
+                  <div className="pt-4 border-t border-[#F2CFD9] space-y-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-[#4A3F45] font-medium">Sous-total estimé</span>
+                      <span className="text-lg font-bold text-[#171318] tabular-nums">
+                        {formatFcfa(totalAmount)}
+                      </span>
+                    </div>
+                    <motion.button
+                      type="button"
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleProceedToOrder}
+                      className="w-full py-3.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
+                    >
+                      <span>Finaliser la commande</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </motion.button>
+                  </div>
+                )}
             </motion.div>
           </motion.div>
         )}

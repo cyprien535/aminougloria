@@ -39,7 +39,7 @@ export function CtaSection({ onOpenBooking, onOpenDiagnostic }: CtaSectionProps)
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               onClick={onOpenBooking}
-              className="group w-full sm:w-auto justify-center px-5 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-md flex items-center gap-2.5 text-center sm:whitespace-nowrap shrink-0"
+              className="group w-full sm:w-auto justify-center px-5 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-md flex items-center gap-2.5 text-center sm:whitespace-nowrap shrink-0"
             >
               <span>Prendre rendez-vous avec Gloria</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />

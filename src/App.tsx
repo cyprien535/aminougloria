@@ -31,9 +31,6 @@ import {
   Tilt3DCard
 } from './components/Motion3D';
 
-// Visual Assets (Optimized WebP)
-const PORTRAIT_CUTOUT = "/assets/webp/gloria-portrait.webp";
-
 interface DiagnosticResult {
   skinType: string;
   concern: string;
@@ -54,7 +51,15 @@ const SKIN_PROBLEMS: Array<{
   symptom: string;
   cause: string;
   reflex: string;
-  images: Array<{ src: string; alt: string; objectPosition?: string }>;
+  images: Array<{
+    src: string;
+    srcSet: string;
+    sizes: string;
+    width: number;
+    height: number;
+    alt: string;
+    objectPosition?: string;
+  }>;
 }> = [
   {
     id: 'teint-irregulier',
@@ -66,12 +71,20 @@ const SKIN_PROBLEMS: Array<{
     reflex: 'Apaiser l’inflammation cutanée et réinstaller une protection solaire quotidienne avant toute correction.',
     images: [
       {
-        src: '/assets/webp/problem-teint-irregulier.webp',
+        src: '/assets/webp/problem-teint-irregulier-md.webp',
+        srcSet: '/assets/webp/problem-teint-irregulier-sm.webp 240w, /assets/webp/problem-teint-irregulier-md.webp 360w, /assets/webp/problem-teint-irregulier.webp 447w',
+        sizes: '(max-width: 767px) 46vw, 16vw',
+        width: 447,
+        height: 678,
         alt: 'Peau noire présentant un teint irrégulier avec zones éclaircies et contrastes sur la joue',
         objectPosition: 'object-center'
       },
       {
         src: '/assets/webp/problem-tache-rebelle.webp',
+        srcSet: '/assets/webp/problem-tache-rebelle-sm.webp 240w, /assets/webp/problem-tache-rebelle.webp 361w',
+        sizes: '(max-width: 767px) 46vw, 16vw',
+        width: 361,
+        height: 547,
         alt: 'Portrait montrant des taches rebelles d’hyperpigmentation sur le front et les pommettes',
         objectPosition: 'object-[50%_28%]'
       }
@@ -87,7 +100,11 @@ const SKIN_PROBLEMS: Array<{
     reflex: 'Couper net l’agression chimique et colmater la barrière cutanée avec des lipides purs non raffinés.',
     images: [
       {
-        src: '/assets/webp/problem-peau-brulee.webp',
+        src: '/assets/webp/problem-peau-brulee-md.webp',
+        srcSet: '/assets/webp/problem-peau-brulee-sm.webp 480w, /assets/webp/problem-peau-brulee-md.webp 680w, /assets/webp/problem-peau-brulee.webp 896w',
+        sizes: '(max-width: 767px) 92vw, 30vw',
+        width: 896,
+        height: 672,
         alt: 'Gros plan d’une peau brûlée, marquée et sensibilisée par l’altération de la barrière cutanée',
         objectPosition: 'object-center'
       }
@@ -103,7 +120,11 @@ const SKIN_PROBLEMS: Array<{
     reflex: 'Alléger la routine vers 3 gestes essentiels : nettoyer sans décaper, hydrater et nourrir simplement.',
     images: [
       {
-        src: '/assets/webp/problem-perte-eclat.webp',
+        src: '/assets/webp/problem-perte-eclat-md.webp',
+        srcSet: '/assets/webp/problem-perte-eclat-sm.webp 480w, /assets/webp/problem-perte-eclat-md.webp 680w, /assets/webp/problem-perte-eclat.webp 895w',
+        sizes: '(max-width: 767px) 92vw, 30vw',
+        width: 895,
+        height: 672,
         alt: 'Peau terne et fatiguée face à l’accumulation de produits cosmétiques inadaptés',
         objectPosition: 'object-center'
       }
@@ -127,7 +148,8 @@ const SOLUTION_PILLARS = [
     soir: 'Nettoyage à l’huile de baobab & beurre de karité brut pour cicatriser.',
     ctaLabel: 'Démarrer par la phase Réparer',
     ctaType: 'diagnostic' as const,
-    image: '/assets/webp/solution-reparer.webp',
+    image: '/assets/webp/solution-reparer-md.webp',
+    imageSrcSet: '/assets/webp/solution-reparer-sm.webp 480w, /assets/webp/solution-reparer-md.webp 680w, /assets/webp/solution-reparer.webp 896w',
     imageAlt: 'Beurre de karité brut non raffiné et huile botanique naturelle sur pierre travertine'
   },
   {
@@ -145,7 +167,8 @@ const SOLUTION_PILLARS = [
     soir: 'Brume d’hibiscus sur peau humide & 2 gouttes d’huile de baobab.',
     ctaLabel: 'Découvrir les actifs en boutique',
     ctaType: 'boutique' as const,
-    image: '/assets/webp/solution-equilibrer.webp',
+    image: '/assets/webp/solution-equilibrer-md.webp',
+    imageSrcSet: '/assets/webp/solution-equilibrer-sm.webp 480w, /assets/webp/solution-equilibrer-md.webp 680w, /assets/webp/solution-equilibrer.webp 896w',
     imageAlt: 'Flacon d’huile de baobab pressée à froid, feuille d’aloe vera fraîche et fleurs d’hibiscus'
   },
   {
@@ -163,7 +186,8 @@ const SOLUTION_PILLARS = [
     soir: 'Soin doux aux fleurs d’hibiscus (2 soirs/sem.) & élixir de baobab.',
     ctaLabel: 'Faire mon diagnostic gratuit',
     ctaType: 'diagnostic' as const,
-    image: '/assets/webp/solution-regenerer.webp',
+    image: '/assets/webp/solution-regenerer-md.webp',
+    imageSrcSet: '/assets/webp/solution-regenerer-sm.webp 480w, /assets/webp/solution-regenerer-md.webp 680w, /assets/webp/solution-regenerer.webp 840w',
     imageAlt: 'Peau noire naturelle, uniforme, saine et lumineuse sans artifices'
   }
 ] as const;
@@ -298,7 +322,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               Accueil
             </button>
@@ -308,7 +332,7 @@ export default function App() {
                 const el = document.getElementById('solution');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               Services
             </button>
@@ -318,7 +342,7 @@ export default function App() {
                 const el = document.getElementById('boutique');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               Boutique
             </button>
@@ -328,7 +352,7 @@ export default function App() {
                 const el = document.getElementById('apropos');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:text-[#D45578] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="hover:text-[#A82F55] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               À propos
             </button>
@@ -339,7 +363,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setIsBookingOpen(true)}
-              className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-[11px] sm:text-xs font-semibold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer shadow-xs transition-colors"
+              className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] text-[11px] sm:text-xs font-semibold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer shadow-xs transition-colors"
             >
               <span className="sm:hidden">Rendez-vous</span>
               <span className="hidden sm:inline">Prendre rendez-vous</span>
@@ -356,11 +380,16 @@ export default function App() {
         </motion.header>
 
         {/* ========================================================
+            MAIN CONTENT LANDMARK
+            ======================================================== */}
+        <main className="w-full flex flex-col items-center gap-3.5 sm:gap-5 md:gap-6">
+
+        {/* ========================================================
             HERO SECTION (Static, Responsive: Eyebrow -> Portrait -> Texts below lg)
             ======================================================== */}
         <section
           id="accueil"
-          className="relative z-30 w-full lg:w-[95%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#D45578]/25 bg-gradient-to-b lg:bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg lg:min-h-[78vh] flex flex-col lg:flex-row items-center justify-between"
+          className="relative z-30 w-full lg:w-[95%] max-w-[1390px] flex-1 rounded-3xl md:rounded-[40px] overflow-hidden border border-[#BD3A60]/25 bg-gradient-to-b lg:bg-gradient-to-r from-[#FFFFFF] via-[#FCE4EC] to-[#F2CFD9] shadow-lg lg:min-h-[78vh] flex flex-col lg:flex-row items-center justify-between"
         >
           {/* Gradient Backdrop behind text content */}
           <div 
@@ -373,7 +402,7 @@ export default function App() {
             
             {/* Eyebrow capsule (1st on mobile/tablet AND top of left column on desktop) */}
             <div className="relative z-10 order-1 lg:order-none mt-6 sm:mt-8 lg:mt-0 mx-4 lg:mx-0 inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#FFFFFF] border border-[#F2CFD9] text-[#A82F55] text-[11px] sm:text-xs font-semibold tracking-wider uppercase shadow-xs lg:mb-4 max-w-[calc(100%-2rem)] text-center">
-              <span className="w-2 h-2 rounded-full bg-[#D45578] shrink-0" />
+              <span className="w-2 h-2 rounded-full bg-[#BD3A60] shrink-0" />
               <span>Gloria Aminou · La Régénératrice</span>
             </div>
 
@@ -381,10 +410,10 @@ export default function App() {
             <div className="relative z-10 order-3 lg:order-none w-full flex flex-col items-center text-center lg:items-start lg:text-left px-5 sm:px-10 lg:px-0 pt-5 pb-8 sm:pb-10 lg:py-0">
               <h1 className="font-serif-luxury text-[28px] sm:text-4xl md:text-[46px] lg:text-[52px] xl:text-[58px] text-[#171318] leading-[1.1] font-medium tracking-tight mb-3 sm:mb-4 max-w-xl lg:max-w-none">
                 Peau brûlée, éclaircie ou abîmée ? <br className="hidden sm:inline" />
-                <span className="text-[#D45578] italic"> Retrouve ton vrai teint.</span>
+                <span className="text-[#A82F55] italic"> Retrouve ton vrai teint.</span>
               </h1>
 
-              <p className="text-sm sm:text-base text-[#6F6268] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
+              <p className="text-sm sm:text-base text-[#4A3F45] leading-relaxed max-w-lg mb-6 sm:mb-8 font-normal">
                 Tu as essayé des produits, suivi des conseils, mais ta peau ne suit plus ?
               </p>
 
@@ -396,7 +425,7 @@ export default function App() {
                     setDiagnosticResult(null);
                     setIsDiagnosticOpen(true);
                   }}
-                  className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-6 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#D45578] text-[#FFFFFF] hover:bg-[#A82F55] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#D45578]/25 hover:ring-[#D45578]/50"
+                  className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-6 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#BD3A60] text-[#FFFFFF] hover:bg-[#9E294D] transition-colors duration-200 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer ring-4 ring-[#BD3A60]/25 hover:ring-[#BD3A60]/45"
                 >
                   <span>Je corrige ma peau</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
@@ -405,10 +434,10 @@ export default function App() {
 
               <a
                 href="#solution"
-                className="mt-5 text-[11.5px] text-[#6F6268] hover:text-[#D45578] flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 transition-colors cursor-pointer group"
+                className="mt-5 text-[11.5px] text-[#4A3F45] hover:text-[#A82F55] flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 transition-colors cursor-pointer group"
               >
-                <span className="text-[#D45578] font-bold">Approche :</span>
-                <span className="font-medium text-[#171318] group-hover:text-[#D45578] transition-colors">Réparer · Équilibrer · Régénérer</span>
+                <span className="text-[#A82F55] font-bold">Approche :</span>
+                <span className="font-medium text-[#171318] group-hover:text-[#A82F55] transition-colors">Réparer · Équilibrer · Régénérer</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
               </a>
             </div>
@@ -416,9 +445,11 @@ export default function App() {
           </div>
 
           {/* Foreground Portrait Cutout (2nd on mobile/tablet BEFORE Hero texts, right-pinned on desktop) */}
-          <div className="order-2 lg:order-none relative lg:absolute right-0 bottom-0 z-20 w-[86%] max-w-[300px] sm:max-w-[360px] lg:max-w-none lg:w-auto h-[260px] sm:h-[320px] lg:h-[94%] xl:h-[96%] mt-4 lg:mt-0 border-b border-[#D45578]/25 lg:border-b-0 flex items-end justify-center lg:justify-end pointer-events-none px-4 lg:px-0 lg:pr-8 xl:pr-12">
+          <div className="order-2 lg:order-none relative lg:absolute right-0 bottom-0 z-20 w-[86%] max-w-[300px] sm:max-w-[360px] lg:max-w-none lg:w-auto h-[260px] sm:h-[320px] lg:h-[94%] xl:h-[96%] mt-4 lg:mt-0 border-b border-[#BD3A60]/25 lg:border-b-0 flex items-end justify-center lg:justify-end pointer-events-none px-4 lg:px-0 lg:pr-8 xl:pr-12">
             <img 
-              src={PORTRAIT_CUTOUT} 
+              src="/assets/webp/gloria-portrait-md.webp"
+              srcSet="/assets/webp/gloria-portrait-sm.webp 380w, /assets/webp/gloria-portrait-md.webp 580w, /assets/webp/gloria-portrait.webp 799w"
+              sizes="(max-width: 1023px) 362px, 561px"
               alt="Gloria Aminou - Beauty coach béninoise"
               width={799}
               height={1000}
@@ -477,7 +508,7 @@ export default function App() {
                       setDiagnosticResult(null);
                       setIsDiagnosticOpen(true);
                     }}
-                    className="group w-full sm:w-auto justify-center px-6 sm:px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                    className="group w-full sm:w-auto justify-center px-6 sm:px-7 py-3.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] transition-colors duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                   >
                     <span>Identifier mon problème</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -536,6 +567,10 @@ export default function App() {
                                 <img
                                   key={img.src}
                                   src={img.src}
+                                  srcSet={img.srcSet}
+                                  sizes={img.sizes}
+                                  width={img.width}
+                                  height={img.height}
                                   alt={img.alt}
                                   loading="lazy"
                                   decoding="async"
@@ -692,6 +727,8 @@ export default function App() {
                         ) : (
                           <img
                             src={pillar.image}
+                            srcSet={pillar.imageSrcSet}
+                            sizes="(max-width: 1023px) 92vw, 42vw"
                             alt={pillar.imageAlt}
                             width={900}
                             height={672}
@@ -778,7 +815,7 @@ export default function App() {
                               setDiagnosticResult(null);
                               setIsDiagnosticOpen(true);
                             }}
-                            className="group w-full sm:w-auto justify-center px-5 sm:px-7 py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
+                            className="group w-full sm:w-auto justify-center px-5 sm:px-7 py-3.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] transition-all duration-200 text-xs sm:text-sm font-semibold uppercase tracking-wider cursor-pointer shadow-sm flex items-center gap-2.5 whitespace-nowrap shrink-0"
                           >
                             <span>{pillar.ctaLabel}</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -853,6 +890,8 @@ export default function App() {
           }}
         />
 
+        </main>
+
         <FooterSection
           onOpenBooking={() => setIsBookingOpen(true)}
           onOpenDiagnostic={() => {
@@ -883,15 +922,17 @@ export default function App() {
             transition={{ duration: 0.25, ease: EASE_LUXURY }}
             className="relative max-w-xl w-full bg-[#FFFFFF] border border-[#F2CFD9] p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]"
           >
-            <button 
+            <button
+              type="button"
+              aria-label="Fermer le diagnostic"
               onClick={() => setIsDiagnosticOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
+              className="absolute top-5 right-5 p-1.5 text-[#4A3F45] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* Step Header */}
-            <div className="text-xs uppercase tracking-[0.2em] text-[#D45578] font-semibold mb-1">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#A82F55] font-semibold mb-1">
               {quizStep <= 3 ? `Étape ${quizStep} sur 3 · Diagnostic Cutané` : "Votre Prescription Personnalisée"}
             </div>
             <h3 className="font-serif-luxury text-2xl md:text-3xl text-[#171318] mb-6 font-medium">
@@ -915,18 +956,19 @@ export default function App() {
                     onClick={() => setSkinType(item.id)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                       skinType === item.id 
-                        ? 'border-[#D45578] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
-                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#6F6268]'
+                        ? 'border-[#BD3A60] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
+                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#4A3F45]'
                     }`}
                   >
                     <div className="font-semibold text-sm text-[#171318]">{item.title}</div>
-                    <div className="text-xs text-[#6F6268] mt-0.5">{item.desc}</div>
+                    <div className="text-xs text-[#4A3F45] mt-0.5">{item.desc}</div>
                   </div>
                 ))}
                 <div className="pt-4 flex justify-end">
                   <button
+                    type="button"
                     onClick={() => setQuizStep(2)}
-                    className="px-6 py-3 rounded-full bg-[#D45578] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#A82F55] transition-colors cursor-pointer"
+                    className="px-6 py-3 rounded-full bg-[#BD3A60] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#9E294D] transition-colors cursor-pointer"
                   >
                     Suivant →
                   </button>
@@ -947,24 +989,26 @@ export default function App() {
                     onClick={() => setConcern(item.id)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                       concern === item.id 
-                        ? 'border-[#D45578] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
-                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#6F6268]'
+                        ? 'border-[#BD3A60] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
+                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#4A3F45]'
                     }`}
                   >
                     <div className="font-semibold text-sm text-[#171318]">{item.title}</div>
-                    <div className="text-xs text-[#6F6268] mt-0.5">{item.desc}</div>
+                    <div className="text-xs text-[#4A3F45] mt-0.5">{item.desc}</div>
                   </div>
                 ))}
                 <div className="pt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
+                    type="button"
                     onClick={() => setQuizStep(1)}
-                    className="px-5 py-2.5 rounded-full border border-[#6F6268] text-xs font-semibold text-[#6F6268] hover:text-[#171318] cursor-pointer"
+                    className="px-5 py-2.5 rounded-full border border-[#4A3F45] text-xs font-semibold text-[#4A3F45] hover:text-[#171318] cursor-pointer"
                   >
                     ← Retour
                   </button>
                   <button
+                    type="button"
                     onClick={() => setQuizStep(3)}
-                    className="px-6 py-3 rounded-full bg-[#D45578] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#A82F55] transition-colors cursor-pointer"
+                    className="px-6 py-3 rounded-full bg-[#BD3A60] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#9E294D] transition-colors cursor-pointer"
                   >
                     Suivant →
                   </button>
@@ -985,24 +1029,26 @@ export default function App() {
                     onClick={() => setClimate(item.id)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                       climate === item.id 
-                        ? 'border-[#D45578] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
-                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#6F6268]'
+                        ? 'border-[#BD3A60] bg-[#F2CFD9]/35 text-[#171318] shadow-xs' 
+                        : 'border-[#F2CFD9] hover:bg-[#F2CFD9]/15 text-[#4A3F45]'
                     }`}
                   >
                     <div className="font-semibold text-sm text-[#171318]">{item.title}</div>
-                    <div className="text-xs text-[#6F6268] mt-0.5">{item.desc}</div>
+                    <div className="text-xs text-[#4A3F45] mt-0.5">{item.desc}</div>
                   </div>
                 ))}
                 <div className="pt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
+                    type="button"
                     onClick={() => setQuizStep(2)}
-                    className="px-5 py-2.5 rounded-full border border-[#6F6268] text-xs font-semibold text-[#6F6268] hover:text-[#171318] cursor-pointer"
+                    className="px-5 py-2.5 rounded-full border border-[#4A3F45] text-xs font-semibold text-[#4A3F45] hover:text-[#171318] cursor-pointer"
                   >
                     ← Retour
                   </button>
                   <button
+                    type="button"
                     onClick={handleCalculateDiagnostic}
-                    className="px-5 sm:px-6 py-3 rounded-full bg-[#D45578] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#A82F55] transition-colors cursor-pointer"
+                    className="px-5 sm:px-6 py-3 rounded-full bg-[#BD3A60] text-[#FFFFFF] text-xs uppercase font-semibold tracking-wider hover:bg-[#9E294D] transition-colors cursor-pointer"
                   >
                     Voir mon bilan personnalisé
                   </button>
@@ -1013,27 +1059,27 @@ export default function App() {
             {/* Step 4: Diagnostic Result Output */}
             {quizStep === 4 && diagnosticResult && (
               <div className="space-y-6">
-                <div className="p-4 rounded-2xl bg-[#F2CFD9]/30 border border-[#D45578]/30">
+                <div className="p-4 rounded-2xl bg-[#F2CFD9]/30 border border-[#BD3A60]/30">
                   <div className="text-xs uppercase font-semibold text-[#A82F55] mb-1">
                     Actif Botanique Clé
                   </div>
                   <div className="text-base font-serif-luxury font-semibold text-[#171318]">
                     {diagnosticResult.routine.actifStar}
                   </div>
-                  <p className="text-xs text-[#6F6268] mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#4A3F45] mt-1.5 leading-relaxed">
                     {diagnosticResult.routine.conseilGloria}
                   </p>
                 </div>
 
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-[#171318] mb-2 flex items-center gap-1.5">
-                    <Sun className="w-3.5 h-3.5 text-[#D45578]" />
+                    <Sun className="w-3.5 h-3.5 text-[#A82F55]" aria-hidden="true" />
                     Routine Matin (3 gestes essentiels)
                   </h4>
-                  <ul className="space-y-1.5 text-xs text-[#6F6268] bg-[#FFFFFF] p-3 rounded-xl border border-[#F2CFD9]">
+                  <ul className="space-y-1.5 text-xs text-[#4A3F45] bg-[#FFFFFF] p-3 rounded-xl border border-[#F2CFD9]">
                     {diagnosticResult.routine.matin.map((step, idx) => (
                       <li key={idx} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D45578]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#BD3A60]" />
                         <span>{step}</span>
                       </li>
                     ))}
@@ -1042,10 +1088,10 @@ export default function App() {
 
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-[#171318] mb-2 flex items-center gap-1.5">
-                    <Droplets className="w-3.5 h-3.5 text-[#A82F55]" />
+                    <Droplets className="w-3.5 h-3.5 text-[#A82F55]" aria-hidden="true" />
                     Routine Soir (Régénération & Réparation)
                   </h4>
-                  <ul className="space-y-1.5 text-xs text-[#6F6268] bg-[#FFFFFF] p-3 rounded-xl border border-[#F2CFD9]">
+                  <ul className="space-y-1.5 text-xs text-[#4A3F45] bg-[#FFFFFF] p-3 rounded-xl border border-[#F2CFD9]">
                     {diagnosticResult.routine.soir.map((step, idx) => (
                       <li key={idx} className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#A82F55]" />
@@ -1057,17 +1103,19 @@ export default function App() {
 
                 <div className="pt-2 flex flex-col gap-2">
                   <button
+                    type="button"
                     onClick={() => {
                       setIsDiagnosticOpen(false);
                       setIsBookingOpen(true);
                     }}
-                    className="w-full py-3.5 rounded-full bg-[#171318] text-[#FFFFFF] hover:bg-[#D45578] transition-colors text-xs uppercase font-semibold tracking-wider text-center cursor-pointer"
+                    className="w-full py-3.5 rounded-full bg-[#171318] text-[#FFFFFF] hover:bg-[#BD3A60] transition-colors text-xs uppercase font-semibold tracking-wider text-center cursor-pointer"
                   >
                     Approfondir en visio avec Gloria Aminou
                   </button>
                   <button
+                    type="button"
                     onClick={() => setQuizStep(1)}
-                    className="w-full py-2 text-xs text-[#6F6268] hover:text-[#171318] text-center cursor-pointer"
+                    className="w-full py-2 text-xs text-[#4A3F45] hover:text-[#171318] text-center cursor-pointer"
                   >
                     Recommencer le diagnostic
                   </button>
@@ -1098,9 +1146,11 @@ export default function App() {
             transition={{ duration: 0.25, ease: EASE_LUXURY }}
             className="relative max-w-lg w-full bg-[#FFFFFF] border border-[#F2CFD9] p-5 sm:p-6 md:p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90dvh]"
           >
-            <button 
+            <button
+              type="button"
+              aria-label="Fermer la fenêtre de rendez-vous"
               onClick={() => setIsBookingOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#6F6268] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
+              className="absolute top-5 right-5 p-1.5 text-[#4A3F45] hover:text-[#171318] transition-colors rounded-full hover:bg-[#F2CFD9]/40 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1113,14 +1163,14 @@ export default function App() {
                 <h3 className="font-serif-luxury text-2xl text-[#171318] mb-2 font-medium">
                   Demande bien reçue !
                 </h3>
-                <p className="text-xs text-[#6F6268] max-w-xs leading-relaxed">
+                <p className="text-xs text-[#4A3F45] max-w-xs leading-relaxed">
                   Merci {bookingName || "chère cliente"}. Gloria Aminou ou son équipe vous recontactera sous 24h ouvrées par WhatsApp pour planifier votre séance.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleBookingSubmit} className="space-y-4">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#D45578] font-semibold mb-1">
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#A82F55] font-semibold mb-1">
                     Accompagnement Personnalisé
                   </div>
                   <h3 className="font-serif-luxury text-2xl md:text-3xl text-[#171318] font-medium">
@@ -1138,7 +1188,7 @@ export default function App() {
                     placeholder="Ex: Reine Dossou"
                     value={bookingName}
                     onChange={(e) => setBookingName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#D45578]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#BD3A60]"
                   />
                 </div>
 
@@ -1153,7 +1203,7 @@ export default function App() {
                       placeholder="+229 ... ou +33 ..."
                       value={bookingPhone}
                       onChange={(e) => setBookingPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#D45578]"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#BD3A60]"
                     />
                   </div>
                   <div>
@@ -1166,7 +1216,7 @@ export default function App() {
                       placeholder="reine@example.com"
                       value={bookingEmail}
                       onChange={(e) => setBookingEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#D45578]"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#BD3A60]"
                     />
                   </div>
                 </div>
@@ -1180,15 +1230,15 @@ export default function App() {
                     placeholder="Décrivez brièvement votre routine actuelle ou ce que vous souhaitez améliorer..."
                     value={bookingNotes}
                     onChange={(e) => setBookingNotes(e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#D45578]"
+                    className="w-full px-3.5 py-2 rounded-xl border border-[#F2CFD9] text-xs text-[#171318] focus:outline-none focus:border-[#BD3A60]"
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-3.5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] transition-all text-xs uppercase font-semibold tracking-wider flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                  className="w-full py-3.5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] transition-all text-xs uppercase font-semibold tracking-wider flex items-center justify-center gap-2 shadow-md cursor-pointer"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Envoyer ma demande de coaching</span>
                 </button>
               </form>
@@ -1219,25 +1269,27 @@ export default function App() {
           >
             <div className="flex items-center justify-between mb-4 border-b border-[#F2CFD9] pb-3">
               <div className="flex items-center gap-2.5 w-full">
-                <Search className="w-4 h-4 text-[#D45578]" />
+                <Search className="w-4 h-4 text-[#A82F55]" aria-hidden="true" />
                 <input 
                   type="text"
                   placeholder="Rechercher un actif, un conseil, une routine..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
-                  className="w-full bg-transparent text-[#171318] placeholder-[#6F6268]/60 text-sm focus:outline-none"
+                  className="w-full bg-transparent text-[#171318] placeholder-[#4A3F45]/75 text-sm focus:outline-none"
                 />
               </div>
-              <button 
+              <button
+                type="button"
+                aria-label="Fermer la recherche"
                 onClick={() => setIsSearchOpen(false)}
-                className="p-1 text-[#6F6268] hover:text-[#171318] cursor-pointer"
+                className="p-1 text-[#4A3F45] hover:text-[#171318] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
             
-            <div className="py-2 text-xs text-[#6F6268] uppercase tracking-wider mb-2">Thématiques fréquentes</div>
+            <div className="py-2 text-xs text-[#4A3F45] uppercase tracking-wider mb-2">Thématiques fréquentes</div>
             <div className="flex flex-col gap-2">
               {[
                 { title: "Diagnostic de peau en ligne gratuit", action: () => { setIsSearchOpen(false); setIsDiagnosticOpen(true); } },
@@ -1246,10 +1298,11 @@ export default function App() {
               ].map((item, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={item.action}
                   className="flex items-center justify-between p-2.5 hover:bg-[#F2CFD9]/25 text-left transition-colors rounded-lg group cursor-pointer"
                 >
-                  <span className="text-sm text-[#171318] group-hover:text-[#D45578] transition-colors">{item.title}</span>
+                  <span className="text-sm text-[#171318] group-hover:text-[#A82F55] transition-colors">{item.title}</span>
                   <span className="text-[10px] text-[#A82F55] font-semibold uppercase tracking-wider">Accéder →</span>
                 </button>
               ))}
@@ -1286,7 +1339,7 @@ export default function App() {
                 <button 
                   type="button"
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-2 text-[#6F6268] hover:text-[#171318] rounded-full hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
+                  className="p-2 text-[#4A3F45] hover:text-[#171318] rounded-full hover:bg-[#F2CFD9]/40 transition-colors cursor-pointer"
                   aria-label="Fermer le menu"
                 >
                   <X className="w-5 h-5" />
@@ -1339,7 +1392,7 @@ export default function App() {
                     key={index}
                     type="button"
                     onClick={navItem.action}
-                    className="text-left font-serif-luxury text-xl py-1 text-[#171318] hover:text-[#D45578] transition-colors tracking-wide cursor-pointer"
+                    className="text-left font-serif-luxury text-xl py-1 text-[#171318] hover:text-[#A82F55] transition-colors tracking-wide cursor-pointer"
                   >
                     {navItem.name}
                   </button>
@@ -1353,7 +1406,7 @@ export default function App() {
                     setIsMenuOpen(false);
                     setIsDiagnosticOpen(true);
                   }}
-                  className="w-full py-3 px-5 rounded-full border border-[#D45578]/40 text-[#A82F55] hover:bg-[#FCE4EC]/50 text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors"
+                  className="w-full py-3 px-5 rounded-full border border-[#A82F55]/40 text-[#A82F55] hover:bg-[#FCE4EC]/50 text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors"
                 >
                   Diagnostic de peau gratuit
                 </button>
@@ -1363,14 +1416,14 @@ export default function App() {
                     setIsMenuOpen(false);
                     setIsBookingOpen(true);
                   }}
-                  className="w-full py-3.5 px-5 rounded-full bg-[#D45578] hover:bg-[#A82F55] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors shadow-xs"
+                  className="w-full py-3.5 px-5 rounded-full bg-[#BD3A60] hover:bg-[#9E294D] text-[#FFFFFF] text-xs font-semibold uppercase tracking-wider text-center cursor-pointer transition-colors shadow-xs"
                 >
                   Prendre rendez-vous
                 </button>
               </div>
             </div>
 
-            <div className="border-t border-[#F2CFD9] pt-5 text-xs text-[#6F6268] leading-relaxed">
+            <div className="border-t border-[#F2CFD9] pt-5 text-xs text-[#4A3F45] leading-relaxed">
               <p className="font-semibold text-[#171318]">Gloria Aminou</p>
               <p className="mt-0.5">Beauty Coach & Créatrice de contenus</p>
               <p className="mt-2 text-[#A82F55] font-medium">Cosmétique naturelle · Cotonou, Bénin</p>
