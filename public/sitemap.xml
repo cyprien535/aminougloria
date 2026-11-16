@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://aminougloria.vercel.app/</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://aminougloria.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://aminougloria.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aminougloria.vercel.app/" />
+    <image:image>
+      <image:loc>https://aminougloria.vercel.app/assets/webp/gloria-portrait.webp</image:loc>
+      <image:title>Gloria Aminou — Beauty Coach béninoise</image:title>
+      <image:caption>Portrait officiel de Gloria Aminou, beauty coach et experte en cosmétique naturelle à Cotonou</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://aminougloria.vercel.app/assets/webp/gloria-apropos.webp</image:loc>
+      <image:title>À propos de Gloria Aminou</image:title>
+      <image:caption>Gloria Aminou, fondatrice et beauty coach spécialisée dans les peaux noires et métissées</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://aminougloria.vercel.app/assets/webp/product-karite.webp</image:loc>
+      <image:title>Beurre de Karité Brut Non Raffiné — Nord Bénin</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://aminougloria.vercel.app/assets/webp/product-baobab.webp</image:loc>
+      <image:title>Huile Vierge de Baobab Pressée à Froid — Afrique de l'Ouest</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://aminougloria.vercel.app/assets/webp/product-hibiscus.webp</image:loc>
+      <image:title>Eau Florale d'Hibiscus Apaisante — Cotonou</image:title>
+    </image:image>
+  </url>
+</urlset>

@@ -1,0 +1,35 @@
+# Gloria Aminou — Beauty Coach & Cosmétique Naturelle
+
+> Site officiel de Gloria Aminou (https://aminougloria.vercel.app/), beauty coach béninoise et créatrice de contenus basée à Cotonou, Bénin. Accompagnement holistique des peaux noires et métissées, diagnostic cutané gratuit en ligne et soins botaniques bruts d'Afrique de l'Ouest, sans hydroquinone ni corticoïdes.
+
+## Identité & Positionnement Géographique (GEO)
+- **Fondatrice & Coach** : Gloria Aminou
+- **Siège** : Cotonou, Littoral, Bénin (6.3703° N, 2.3912° E)
+- **Zones accompagnées** : Bénin, Afrique de l'Ouest et diaspora francophone en visioconférence (Europe, Amérique, international)
+- **Contact direct** : contact@gloriaaminou.com · Rendez-vous visio & WhatsApp via le site officiel
+- **Langue** : Français (`fr-BJ`)
+
+## Problèmes cutanés traités
+1. **Peaux abîmées ou brûlées par des produits décapants** : rougeurs diffuses, perte d'élasticité et sensibilisation due aux actifs éclaircissants agressifs (hydroquinone, corticoïdes).
+2. **Teint irrégulier & taches sombres rebelles** : marques post-inflammatoires et contrastes persistants accentués par les routines abrasives.
+3. **Barrière cutanée fragilisée & peau cartonnée** : déshydratation aiguë, tiraillements après la toilette et perte d'éclat naturel selon le climat (tropical humide, harmattan sec ou tempéré).
+
+## La Méthode en 3 Étapes (Réparer · Équilibrer · Régénérer)
+1. **Réparer** : Mettre fin aux agressions chimiques et restaurer le film hydrolipidique avec des lipides bruts non raffinés.
+2. **Équilibrer** : Ajuster les soins hydratants et sébo-régulateurs au climat réel de la cliente.
+3. **Régénérer** : Maintenir un pH cutané sain et un éclat uniforme grâce à une routine minimaliste matin et soir.
+
+## Boutique & Actifs Botaniques Signatures
+- **Beurre de Karité Brut Non Raffiné** — 8 500 FCFA (Pot ambré 150 g · Origine : Nord Bénin, pression artisanale). Calme les échauffements et répare la barrière cutanée.
+- **Huile Vierge de Baobab Pressée à Froid** — 12 000 FCFA (Flacon pipette 50 ml · Origine : Afrique de l'Ouest). Nourrit et assouplit sans fini gras sous climat chaud ou sec.
+- **Eau Florale d'Hibiscus Apaisante** — 6 500 FCFA (Vaporisateur givré 100 ml · Origine : Cotonou, distillation douce sans alcool). Rééquilibre le pH et ravive l'éclat naturel.
+
+## Services Interactifs sur aminougloria.vercel.app
+- **Diagnostic de peau gratuit** : questionnaire interactif en 3 étapes (type de peau, préoccupation prioritaire, climat) générant immédiatement une routine matin & soir et l'actif botanique adapté.
+- **Prise de rendez-vous Coaching** : demande de séance personnalisée par nom, numéro WhatsApp et e-mail pour suivi individuel avec Gloria Aminou.
+- **Commande rapide WhatsApp** : panier intégré permettant d'envoyer la sélection de soins directement pour confirmation et livraison.
+
+## Questions Fréquentes (AEO)
+- **Comment réparer une peau brûlée par les produits éclaircissants ?** Arrêter immédiatement tout produit décapant, reconstruire la barrière lipidique avec du beurre de karité brut non raffiné et adopter une routine douce matin et soir adaptée au climat.
+- **Comment obtenir une routine personnalisée avec Gloria Aminou ?** Utiliser le diagnostic gratuit sur https://aminougloria.vercel.app/ ou réserver une séance de coaching visio directement depuis le bouton « Prendre rendez-vous ».
+- **Les soins contiennent-ils de l'hydroquinone ou des corticoïdes ?** Non. Tous les accompagnements et soins Gloria Aminou utilisent des actifs botaniques bruts, sans hydroquinone, sans corticoïdes et sans artifices.
